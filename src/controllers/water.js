@@ -1,118 +1,106 @@
-import { WaterCollection } from '../db/models/water.js';
+import {
+  addWater,
+  updateWater,
+  deleteWater,
+  getDailyWater,
+  getMonthlyWater,
+} from '../services/water.js';
 
 // юзер додає запис про воду
-export const addWaterController = async (req, res) => {
+export const addWaterController = async (req, res, next) => {
   try {
     const { volume, date } = req.body;
     // const userId = req.user.id;
     //   заглушка
     const userId = '67a1f599b7ed372da1c632e0';
 
-    if (volume < 50 || volume > 5000) {
-      return res
-        .status(400)
-        .json({ message: 'The volume of water should be from 50 to 5000 ml' });
-    }
+    const newWater = await addWater(userId, volume, date);
 
-    const newWater = new WaterCollection({ volume, date, userId });
-    await newWater.save();
-
-    res.status(201).json(newWater);
+    res.status(201).json({
+      status: 201,
+      message: 'Successfully added water record!',
+      data: newWater,
+    });
   } catch (error) {
-    res.status(500).json({ message: 'Server error', error });
+    next(error);
   }
 };
 
 // юзєр редагує запис про воду
-export const updateWaterController = async (req, res) => {
+export const updateWaterController = async (req, res, next) => {
   try {
     const { id } = req.params;
     const { volume, date } = req.body;
-    const userId = req.user.id;
+    // const userId = req.user.id;
+    //   заглушка
+    const userId = '67a1f599b7ed372da1c632e0';
 
-    if (volume < 50 || volume > 5000) {
-      return res
-        .status(400)
-        .json({ message: 'The volume of water should be from 50 to 5000 ml' });
-    }
+    const updatedWater = await updateWater(userId, id, volume, date);
 
-    const updatedWater = await WaterCollection.findOneAndUpdate(
-      { _id: id, userId },
-      { volume, date },
-      { new: true },
-    );
-
-    if (!updatedWater) {
-      return res.status(404).json({ message: 'No record found' });
-    }
-
-    res.json(updatedWater);
+    res.json({
+      status: 200,
+      message: 'Successfully updated water record!',
+      data: updatedWater,
+    });
   } catch (error) {
-    res.status(500).json({ message: 'Server error', error });
+    next(error);
   }
 };
 
 // юзер видаляє запис про воду
-export const deleteWaterController = async (req, res) => {
+export const deleteWaterController = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const userId = req.user.id;
+    // const userId = req.user.id;
+    //   заглушка
+    const userId = '67a1f599b7ed372da1c632e0';
 
-    const deletedWater = await WaterCollection.findOneAndDelete({
-      _id: id,
-      userId,
-    });
+    await deleteWater(userId, id);
 
-    if (!deletedWater) {
-      return res.status(404).json({ message: 'No record found' });
-    }
-
-    res.status(200).json({ message: 'Record deleted' });
+    res.status(204).send();
   } catch (error) {
-    res.status(500).json({ message: 'Server error', error });
+    next(error);
   }
 };
 
 // отримує дані споживання за конкретний день
-export const getDailyWaterController = async (req, res) => {
+export const getDailyWaterController = async (req, res, next) => {
   try {
-    const userId = req.user.id;
-    const { date } = req.query;
+    // const userId = req.user.id;
+    //   заглушка
+    // const userId = '67a1f599b7ed372da1c632e0';
 
-    const start = new Date(date);
-    const end = new Date(date);
-    end.setDate(end.getDate() + 1);
+    const { userId = '67a1f599b7ed372da1c632e0', date } = req.query;
 
-    const waterEntries = await WaterCollection.find({
-      userId,
-      date: { $gte: start, $lt: end },
-    }).sort({ date: -1 });
+    const waterEntries = await getDailyWater(userId, date);
 
-    res.json(waterEntries);
+    res.json({
+      status: 200,
+      message: 'Successfully retrieved daily water records!',
+      data: waterEntries,
+    });
   } catch (error) {
-    res.status(500).json({ message: 'Server error', error });
+    next(error);
   }
 };
 
 // отримує дані споживання за конкретний місяць
-export const getMonthlyWaterController = async (req, res) => {
+export const getMonthlyWaterController = async (req, res, next) => {
   try {
-    const userId = req.user.id;
+    // const userId = req.user.id;
+    //   заглушка
+    const userId = '67a1f599b7ed372da1c632e0';
+
     const { month } = req.query;
 
-    const start = new Date(month);
-    start.setDate(1);
-    const end = new Date(month);
-    end.setMonth(end.getMonth() + 1);
-    end.setDate(1);
+    const waterEntries = await getMonthlyWater(userId, month);
 
-    const waterEntries = await WaterCollection.find({
-      userId,
-      date: { $gte: start, $lt: end },
-    }).sort({ date: -1 });
-
-    res.json(waterEntries);
+    res.json({
+      status: 200,
+      message: 'Successfully retrieved monthly water records!',
+      data: waterEntries,
+    });
   } catch (error) {
-    res.status(500).json({ message: 'Server error', error });
+    next(error);
   }
 };

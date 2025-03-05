@@ -10,13 +10,21 @@ import {
 
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 
+import { validateBody } from '../middlewares/validateBody.js';
+
+import { addWaterSchema, updateWaterSchema } from '../validation/water.js';
+
 const router = Router();
 
 // Додати запис
-router.post('/', ctrlWrapper(addWaterController));
+router.post('/', validateBody(addWaterSchema), ctrlWrapper(addWaterController));
 
 // оновити
-router.put('/:id', ctrlWrapper(updateWaterController));
+router.put(
+  '/:id',
+  validateBody(updateWaterSchema),
+  ctrlWrapper(updateWaterController),
+);
 
 // видалити
 router.delete('/:id', ctrlWrapper(deleteWaterController));
