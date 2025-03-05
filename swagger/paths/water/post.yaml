@@ -1,0 +1,61 @@
+tags:
+  - Water
+summary: Create water
+operationId: createwater
+description: 'Create water with payload'
+security:
+  - bearerAuth: []
+requestBody:
+  content:
+    multipart/form-data:
+      schema:
+        type: object
+        required:
+          - name
+          - phoneNumber
+          - waterType
+        properties:
+          name:
+            description: "water's name"
+            type: string
+          phoneNumber:
+            description: 'water phone number'
+            type: string
+          email:
+            description: "water's email"
+            type: string
+          isFavourite:
+            description: "water's in the favourite list"
+            type: boolean
+          waterType:
+            description: "water's number type"
+            type: string
+            enum: ['work', 'home', 'personal']
+          photo:
+            description: "water's photo"
+            type: string
+            format: binary
+
+responses:
+  '200':
+    description: Creates a student
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 201
+            message:
+              type: string
+              example: Successfully created a water!
+            data:
+              type: object
+              $ref: '../../components/schemas/water.yaml'
+  '401':
+    $ref: '../../components/responses/401.yaml'

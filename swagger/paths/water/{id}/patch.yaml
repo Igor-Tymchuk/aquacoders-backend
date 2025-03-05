@@ -1,0 +1,64 @@
+tags:
+  - Water
+summary: Update water
+operationId: updatewater
+description: 'Update water by id with payload'
+security:
+  - bearerAuth: []
+parameters:
+  - in: path
+    name: id
+    required: true
+    schema:
+      type: string
+      example: '65ca67e7ae7f10c88b598008'
+requestBody:
+  content:
+    multipart/form-data:
+      schema:
+        type: object
+        properties:
+          name:
+            description: "water's name"
+            type: string
+          phoneNumber:
+            description: 'water phone number'
+            type: string
+          email:
+            description: "water's email"
+            type: string
+          isFavourite:
+            description: "water's in the favourite list"
+            type: boolean
+          waterType:
+            description: "water's number type"
+            type: string
+            enum: ['work', 'home', 'personal']
+          photo:
+            description: "water's photo"
+            type: string
+            format: binary
+
+responses:
+  '200':
+    description: 'Patch water'
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: Successfully patched a water!
+            data:
+              type: object
+              $ref: '../../../components/schemas/water.yaml'
+  '401':
+    $ref: '../../../components/responses/404.yaml'

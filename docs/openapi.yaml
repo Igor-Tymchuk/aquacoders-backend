@@ -1,0 +1,57 @@
+openapi: 3.1.0
+info:
+  version: 1.0.0
+  title: AquaTrack Application
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  description: This is a documentation of AquaTrack Application
+tags:
+  - name: Water
+    description: Operations about used water.
+  - name: Auth
+    description: Auth operations.
+servers:
+  - url: https://aquacoders.onrender.com
+paths:
+  /water:
+    get:
+      $ref: ../swagger/paths/water/get.yaml
+    post:
+      $ref: ../swagger/paths/water/post.yaml
+  /water/{id}:
+    get:
+      $ref: ../swagger/paths/water/{id}/get.yaml
+    patch:
+      $ref: ../swagger/paths/water/{id}/patch.yaml
+    delete:
+      $ref: ../swagger/paths/water/{id}/delete.yaml
+  /auth/get-oauth-url:
+    get:
+      $ref: ../swagger/paths/auth/get-oauth-url/get.yaml
+  /auth/confirm-oauth:
+    post:
+      $ref: ../swagger/paths/auth/confirm-oauth/post.yaml
+  /auth/register:
+    post:
+      $ref: ../swagger/paths/auth/register/post.yaml
+  /auth/login:
+    post:
+      $ref: ../swagger/paths/auth/login/post.yaml
+  /auth/refresh:
+    post:
+      $ref: ../swagger/paths/auth/refresh/post.yaml
+  /auth/logout:
+    post:
+      $ref: ../swagger/paths/auth/logout/post.yaml
+  /auth/send-reset-email:
+    post:
+      $ref: ../swagger/paths/auth/send-reset-email/post.yaml
+  /auth/reset-password:
+    post:
+      $ref: ../swagger/paths/auth/reset-password/post.yaml
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
