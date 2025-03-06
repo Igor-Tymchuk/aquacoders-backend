@@ -6,8 +6,14 @@ export const addWater = async (userId, volume, date) => {
     throw createError(400, 'The volume of water should be from 50 to 5000 ml');
   }
 
+  const formattedDate = new Date(date); // Перетворюємо в Date
+
   // створює юзер запис в базі і база повертає його
-  const newWater = await WaterCollection.create({ volume, date, userId });
+  const newWater = await WaterCollection.create({
+    volume,
+    date: formattedDate,
+    userId,
+  });
   return newWater;
 };
 
@@ -19,7 +25,7 @@ export const updateWater = async (userId, id, volume, date) => {
   // редагує, в базі знаходиться id, відправлються нові данні та повертається оновлений запис
   const updatedWater = await WaterCollection.findOneAndUpdate(
     { _id: id, userId },
-    { volume, date },
+    { volume, date: new Date(date) },
     { new: true },
   );
 
@@ -45,8 +51,9 @@ export const deleteWater = async (userId, id) => {
 
 export const getDailyWater = async (userId, date) => {
   const start = new Date(date);
-  const end = new Date(date);
-  end.setDate(end.getDate() + 1);
+  start.setHours(0, 0, 0, 0); // Початок дня
+  const end = new Date(start);
+  end.setDate(end.getDate() + 1); // Кінець дня
 
   // знаходимо в базі значення за вказаний день
   const waterEntries = await WaterCollection.find({
@@ -54,22 +61,33 @@ export const getDailyWater = async (userId, date) => {
     //   фільтрація по даті
     date: { $gte: start, $lt: end },
     // тут фільтрація за датою в зворотньому напрямку
-  }).sort({ date: -1 });
+  })
+    .sort({ date: -1 })
+    .lean(); //отримуємо прості об'єкти
 
-  return waterEntries;
+  return waterEntries.map((entry) => ({
+    ...entry,
+    date: new Date(entry.date), // Перетворення в Date
+  }));
 };
 
 export const getMonthlyWater = async (userId, month) => {
   const start = new Date(month);
   start.setDate(1);
-  const end = new Date(month);
+  start.setHours(0, 0, 0, 0);
+
+  const end = new Date(start);
   end.setMonth(end.getMonth() + 1);
-  end.setDate(1);
 
   const waterEntries = await WaterCollection.find({
     userId,
     date: { $gte: start, $lt: end },
-  }).sort({ date: -1 });
+  })
+    .sort({ date: -1 })
+    .lean();
 
-  return waterEntries;
+  return waterEntries.map((entry) => ({
+    ...entry,
+    date: new Date(entry.date), // Перетворення в Date
+  }));
 };

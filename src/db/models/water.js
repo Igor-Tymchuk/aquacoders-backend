@@ -6,7 +6,7 @@ const waterSchema = new Schema(
       type: Number,
       required: true,
     },
-    date: { type: String, required: true },
+    date: { type: Date, required: true },
     userId: {
       type: Schema.Types.ObjectId,
       ref: 'users',
