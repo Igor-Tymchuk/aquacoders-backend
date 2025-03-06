@@ -1,12 +1,12 @@
 tags:
   - Users
-summary: Get counter of app users
-operationId: generateAu
-description: 'Get OAuth with this endpoint'
+summary: Get registered users counter
+operationId: counterUsers
+description: 'Get some info about registered users'
 security: []
 responses:
   '200':
-    description: 'Get OAuth URL'
+    description: 'Get info about registered users'
     content:
       application/json:
         schema:
@@ -21,12 +21,18 @@ responses:
               example: 200
             message:
               type: string
-              example: Successfully get Google OAuth url!
+              example: Successfully got full info about registered users!
             data:
               type: object
               required:
-                - url
+                - usersCounter
+                - lastUsersAvatars
               properties:
-                url:
-                  type: string
-                  example: 'https://accounts.google.com/o/oauth2/v2/auth?scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile&response_type=code&client_id=1009566289844-rasqo982n443uj1vr7jeu1gu8tdqrleq.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fconfirm-google-auth'
+                usersCounter:
+                  type: number
+                  example: 1488
+                lastUsersAvatars:
+                  type: array
+                  items:
+                    type: string
+                    example: https://res.cloudinary.com/douwe7mix/image/upload/v1738700367/ily2elrvnt2hradnchj3.jpg

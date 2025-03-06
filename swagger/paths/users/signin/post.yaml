@@ -1,7 +1,7 @@
 tags:
   - Users
 summary: Login User
-operationId: loginUser
+operationId: signinUser
 description: 'Login User in the Application'
 security: []
 requestBody:
@@ -16,9 +16,11 @@ requestBody:
           email:
             description: 'User Email'
             type: string
+            example: 'tymchuk.developer@gmail.com'
           password:
             description: 'User Password'
             type: string
+            example: 'Qwerty12345'
 responses:
   '200':
     description: Successfully logged in an user!
