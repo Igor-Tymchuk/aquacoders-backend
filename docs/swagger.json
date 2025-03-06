@@ -320,8 +320,8 @@
           "Users"
         ],
         "summary": "Register User",
-        "operationId": "registerUser",
-        "description": "Register User in the Application",
+        "operationId": "signupUser",
+        "description": "Registration a new User in the Application",
         "security": [],
         "requestBody": {
           "content": {
@@ -329,22 +329,19 @@
               "schema": {
                 "type": "object",
                 "required": [
-                  "name",
                   "email",
                   "password"
                 ],
                 "properties": {
-                  "name": {
-                    "description": "User Name",
-                    "type": "string"
-                  },
                   "email": {
                     "description": "User Email",
-                    "type": "string"
+                    "type": "string",
+                    "example": "tymchuk.developer@gmail.com"
                   },
                   "password": {
                     "description": "User Password",
-                    "type": "string"
+                    "type": "string",
+                    "example": "Qwerty12345"
                   }
                 }
               }
@@ -353,46 +350,68 @@
         },
         "responses": {
           "201": {
-            "description": "Successfully registered a user!",
+            "description": "Successfully registered a new user!",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "required": [
-                    "status",
-                    "message",
-                    "data"
+                    "_id",
+                    "email",
+                    "password",
+                    "name",
+                    "gender",
+                    "weight",
+                    "dailySportTime",
+                    "dailyNorm",
+                    "avatarUrl"
                   ],
                   "properties": {
-                    "status": {
-                      "type": "integer",
-                      "example": 201
-                    },
-                    "message": {
+                    "_id": {
+                      "description": "User's id",
                       "type": "string",
-                      "example": "Successfully registered a user!"
+                      "example": "67a1f598a6ed272da1c632df"
                     },
-                    "data": {
-                      "type": "object",
-                      "required": [
-                        "_id",
-                        "name",
-                        "email"
-                      ],
-                      "properties": {
-                        "_id": {
-                          "type": "string",
-                          "example": "67a922f08b67cd59113534c1"
-                        },
-                        "name": {
-                          "type": "string",
-                          "example": "Igor Tymchuk"
-                        },
-                        "email": {
-                          "type": "string",
-                          "example": "hello@world.com"
-                        }
-                      }
+                    "name": {
+                      "description": "User's name",
+                      "type": "string",
+                      "example": ""
+                    },
+                    "email": {
+                      "description": "User's email",
+                      "type": "string",
+                      "example": "tymchuk.developer@gmail.com"
+                    },
+                    "password": {
+                      "description": "User's password",
+                      "type": "string",
+                      "writeOnly": true,
+                      "example": "Qwerty12345"
+                    },
+                    "gender": {
+                      "description": "User's gender",
+                      "type": "string",
+                      "example": "male"
+                    },
+                    "weight": {
+                      "description": "User's weight",
+                      "type": "number",
+                      "example": 0
+                    },
+                    "dailySportTime": {
+                      "description": "Daily number of hours of sports",
+                      "type": "number",
+                      "example": 0
+                    },
+                    "dailyNorm": {
+                      "description": "The daily rate of water is set, ml",
+                      "type": "number",
+                      "example": 1500
+                    },
+                    "avatarUrl": {
+                      "description": "User's avatar url",
+                      "type": "string",
+                      "example": ""
                     }
                   }
                 }
@@ -411,7 +430,7 @@
           "Users"
         ],
         "summary": "Login User",
-        "operationId": "loginUser",
+        "operationId": "signinUser",
         "description": "Login User in the Application",
         "security": [],
         "requestBody": {
@@ -426,11 +445,13 @@
                 "properties": {
                   "email": {
                     "description": "User Email",
-                    "type": "string"
+                    "type": "string",
+                    "example": "tymchuk.developer@gmail.com"
                   },
                   "password": {
                     "description": "User Password",
-                    "type": "string"
+                    "type": "string",
+                    "example": "Qwerty12345"
                   }
                 }
               }
@@ -609,7 +630,7 @@
         ],
         "summary": "Logout User",
         "operationId": "logoutUser",
-        "description": "Logout User in the Application",
+        "description": "Logout User from the Application",
         "security": [],
         "responses": {
           "204": {
@@ -623,13 +644,13 @@
         "tags": [
           "Users"
         ],
-        "summary": "Get info about current user",
-        "operationId": "generateAut",
-        "description": "Get OAuth with this endpoint",
+        "summary": "Get info about current User",
+        "operationId": "currentUser",
+        "description": "Get full info about current User",
         "security": [],
         "responses": {
           "200": {
-            "description": "Get OAuth URL",
+            "description": "Get info about current User",
             "content": {
               "application/json": {
                 "schema": {
@@ -646,24 +667,18 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "Successfully get Google OAuth url!"
+                      "example": "Successfully got full info about current User!"
                     },
                     "data": {
-                      "type": "object",
-                      "required": [
-                        "url"
-                      ],
-                      "properties": {
-                        "url": {
-                          "type": "string",
-                          "example": "https://accounts.google.com/o/oauth2/v2/auth?scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile&response_type=code&client_id=1009566289844-rasqo982n443uj1vr7jeu1gu8tdqrleq.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fconfirm-google-auth"
-                        }
-                      }
+                      "$ref": "#/components/schemas/user"
                     }
                   }
                 }
               }
             }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
           }
         }
       }
@@ -673,13 +688,13 @@
         "tags": [
           "Users"
         ],
-        "summary": "Get counter of app users",
-        "operationId": "generateAu",
-        "description": "Get OAuth with this endpoint",
+        "summary": "Get registered users counter",
+        "operationId": "counterUsers",
+        "description": "Get some info about registered users",
         "security": [],
         "responses": {
           "200": {
-            "description": "Get OAuth URL",
+            "description": "Get info about registered users",
             "content": {
               "application/json": {
                 "schema": {
@@ -696,17 +711,25 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "Successfully get Google OAuth url!"
+                      "example": "Successfully got full info about registered users!"
                     },
                     "data": {
                       "type": "object",
                       "required": [
-                        "url"
+                        "usersCounter",
+                        "lastUsersAvatars"
                       ],
                       "properties": {
-                        "url": {
-                          "type": "string",
-                          "example": "https://accounts.google.com/o/oauth2/v2/auth?scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile&response_type=code&client_id=1009566289844-rasqo982n443uj1vr7jeu1gu8tdqrleq.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fconfirm-google-auth"
+                        "usersCounter": {
+                          "type": "number",
+                          "example": 1488
+                        },
+                        "lastUsersAvatars": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "example": "https://res.cloudinary.com/douwe7mix/image/upload/v1738700367/ily2elrvnt2hradnchj3.jpg"
+                          }
                         }
                       }
                     }
@@ -723,9 +746,9 @@
         "tags": [
           "Users"
         ],
-        "summary": "Update User",
-        "operationId": "editUse",
-        "description": "Register User in the Application",
+        "summary": "Update User Data",
+        "operationId": "patchUser",
+        "description": "Update the data about user by id with payload",
         "security": [],
         "parameters": [
           {
@@ -740,26 +763,44 @@
         ],
         "requestBody": {
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "name",
-                  "email",
-                  "password"
-                ],
                 "properties": {
                   "name": {
-                    "description": "User Name",
-                    "type": "string"
+                    "description": "User's name",
+                    "type": "string",
+                    "example": "Igor Tymchuk"
                   },
                   "email": {
-                    "description": "User Email",
-                    "type": "string"
+                    "description": "User's email",
+                    "type": "string",
+                    "example": "tymchuk.developer@gmail.com"
                   },
-                  "password": {
-                    "description": "User Password",
-                    "type": "string"
+                  "gender": {
+                    "description": "User's gender",
+                    "type": "string",
+                    "example": "male"
+                  },
+                  "weight": {
+                    "description": "User's weight",
+                    "type": "number",
+                    "example": 55
+                  },
+                  "dailySportTime": {
+                    "description": "Daily number of hours of sports",
+                    "type": "number",
+                    "example": 2.5
+                  },
+                  "dailyNorm": {
+                    "description": "The daily rate of water is set, ml",
+                    "type": "number",
+                    "example": 2000
+                  },
+                  "avatarUrl": {
+                    "description": "User's avatar",
+                    "type": "string",
+                    "format": "binary"
                   }
                 }
               }
@@ -767,8 +808,8 @@
           }
         },
         "responses": {
-          "201": {
-            "description": "Successfully registered a user!",
+          "200": {
+            "description": "Successfully patched a user!",
             "content": {
               "application/json": {
                 "schema": {
@@ -781,41 +822,25 @@
                   "properties": {
                     "status": {
                       "type": "integer",
-                      "example": 201
+                      "example": 200
                     },
                     "message": {
                       "type": "string",
-                      "example": "Successfully registered a user!"
+                      "example": "Successfully patched a user!"
                     },
                     "data": {
-                      "type": "object",
-                      "required": [
-                        "_id",
-                        "name",
-                        "email"
-                      ],
-                      "properties": {
-                        "_id": {
-                          "type": "string",
-                          "example": "67a922f08b67cd59113534c1"
-                        },
-                        "name": {
-                          "type": "string",
-                          "example": "Igor Tymchuk"
-                        },
-                        "email": {
-                          "type": "string",
-                          "example": "hello@world.com"
-                        }
-                      }
+                      "$ref": "#/components/schemas/user"
                     }
                   }
                 }
               }
             }
           },
-          "409": {
-            "$ref": "#/components/responses/409"
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
           }
         }
       }
@@ -1176,9 +1201,108 @@
             "example": "67a1f598a6ed272da1c632df"
           }
         }
+      },
+      "user": {
+        "type": "object",
+        "required": [
+          "_id",
+          "email",
+          "password",
+          "name",
+          "gender",
+          "weight",
+          "dailySportTime",
+          "dailyNorm",
+          "avatarUrl"
+        ],
+        "properties": {
+          "_id": {
+            "description": "User's id",
+            "type": "string",
+            "example": "67a1f598a6ed272da1c632df"
+          },
+          "name": {
+            "description": "User's name",
+            "type": "string",
+            "example": "Igor Tymchuk"
+          },
+          "email": {
+            "description": "User's email",
+            "type": "string",
+            "example": "tymchuk.developer@gmail.com"
+          },
+          "password": {
+            "description": "User's password",
+            "type": "string",
+            "writeOnly": true,
+            "example": "Qwerty12345"
+          },
+          "gender": {
+            "description": "User's gender",
+            "type": "string",
+            "example": "male"
+          },
+          "weight": {
+            "description": "User's weight",
+            "type": "number",
+            "example": 55
+          },
+          "dailySportTime": {
+            "description": "Daily number of hours of sports",
+            "type": "number",
+            "example": 2.5
+          },
+          "dailyNorm": {
+            "description": "The daily rate of water is set, ml",
+            "type": "number",
+            "example": 2000
+          },
+          "avatarUrl": {
+            "description": "User's avatar url",
+            "type": "string",
+            "example": "https://res.cloudinary.com/douwe7mix/image/upload/v1738700367/ily2elrvnt2hradnchj3.jpg"
+          }
+        }
       }
     },
     "responses": {
+      "400": {
+        "description": "Bad Request error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 400
+                },
+                "message": {
+                  "type": "string",
+                  "example": "BadRequestError"
+                },
+                "data": {
+                  "type": "object",
+                  "required": [
+                    "message"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Bad Request"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
       "401": {
         "description": "Unauthorized error",
         "content": {
