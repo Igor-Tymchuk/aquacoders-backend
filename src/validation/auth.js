@@ -1,14 +1,12 @@
-import Joi from "joi";
+import Joi from 'joi';
 
-export const authSchema = Joi.object({
+export const registerUserSchema = Joi.object({
+  name: Joi.string().min(2).max(16),
   email: Joi.string().email().required(),
-  password: Joi.string().min(6).required(),
+  password: Joi.string().required(),
 });
 
-export const validateAuth = (req, res, next) => {
-  const { error } = authSchema.validate(req.body);
-  if (error) {
-    return res.status(400).json({ message: error.details[0].message });
-  }
-  next();
-};
+export const loginUserSchema = Joi.object({
+  email: Joi.string().email().required(),
+  password: Joi.string().required(),
+});

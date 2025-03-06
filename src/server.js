@@ -6,8 +6,6 @@ import router from './routers/index.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import cookieParser from 'cookie-parser';
-import authRoutes from "./routers/auth.js";
-import sessionConfig from "./config/sessionConfig.js";
 import { swaggerDocs } from './middlewares/swaggerDocs.js';
 
 const PORT = Number(getEnvVar('PORT', '3000'));
@@ -33,9 +31,7 @@ export const startServer = () => {
       },
     }),
   );
-  app.use(sessionConfig);
   app.use(router);
-  app.use("/auth", authRoutes);
 
   app.use('*', notFoundHandler);
 
