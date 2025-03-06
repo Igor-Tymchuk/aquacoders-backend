@@ -1,9 +1,9 @@
 import { THIRTY_DAYS } from '../constants/index.js';
-import { loginUser, logoutUser, refreshUsersSession, registerUser} from '../services/auth.js';
+import { signinUser, logoutUser, refreshUsersSession, signupUser} from '../services/users.js';
 
 
-export const registerUserController = async (req, res) => {
-  const user = await registerUser(req.body);
+export const signupUserController = async (req, res) => {
+  const user = await signupUser(req.body);
 
   res.status(201).json({
     status: 201,
@@ -23,8 +23,8 @@ const setupSession = (res, session) => {
   });
 };
 
-export const loginUserController = async (req, res) => {
-  const session = await loginUser(req.body);
+export const signinUserController = async (req, res) => {
+  const session = await signinUser(req.body);
 
   setupSession(res, session);
 
