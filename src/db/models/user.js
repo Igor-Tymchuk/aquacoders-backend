@@ -53,8 +53,9 @@ const usersSchema = new Schema(
 );
 
 usersSchema.methods.toJSON = function () {
-    const { _id, name, email, gender, weight, dailySportTime, dailyNorm, avatarUrl } = this.toObject();
-    return { _id, name, email, gender, weight, dailySportTime, dailyNorm, avatarUrl };
-  };
+  const obj = this.toObject();
+  delete obj.password;
+  return obj;
+};
 
 export const UsersCollection = model('users', usersSchema);

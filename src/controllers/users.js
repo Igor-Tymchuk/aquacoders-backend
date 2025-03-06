@@ -64,13 +64,3 @@ export const logoutUserController = async (req, res) => {
 
   res.status(204).send();
 };
-
-export const getCurrentUserController = async (req, res) => {
-  const { _id, name, email } = req.user;
-
-  res.json({
-    status: 200,
-    message: 'Current user retrieved successfully!',
-    data: { _id, name, email },
-  });
-};
