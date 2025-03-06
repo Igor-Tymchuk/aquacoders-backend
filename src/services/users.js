@@ -3,10 +3,10 @@ import { UsersCollection } from '../db/models/user.js';
 import { randomBytes } from 'crypto';
 import bcrypt from 'bcrypt';
 import { SessionsCollection } from '../db/models/session.js';
-import { FIFTEEN_MINUTES, THIRTY_DAYS} from '../constants/index.js';
+import { THIRTY_DAYS, THIRTY_MINUTES} from '../constants/index.js';
 
 
-export const registerUser = async (payload) => {
+export const signupUser = async (payload) => {
   const user = await UsersCollection.findOne({ email: payload.email });
   if (user) throw createHttpError(409, 'Email in use');
 
@@ -25,12 +25,12 @@ const createSession = () => {
   return {
     accessToken,
     refreshToken,
-    accessTokenValidUntil: new Date(Date.now() + FIFTEEN_MINUTES),
+    accessTokenValidUntil: new Date(Date.now() + THIRTY_MINUTES),
     refreshTokenValidUntil: new Date(Date.now() + THIRTY_DAYS),
   };
 };
 
-export const loginUser = async (payload) => {
+export const signinUser = async (payload) => {
   const user = await UsersCollection.findOne({ email: payload.email });
   if (!user) {
     throw createHttpError(404, 'User not found');
