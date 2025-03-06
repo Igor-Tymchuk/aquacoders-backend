@@ -10,11 +10,15 @@ import {
 export const addWaterController = async (req, res, next) => {
   try {
     const { volume, date } = req.body;
+
+    // Перетворення дати у формат Date перед відправленням у базу
+    const formattedDate = new Date(date);
+
     // const userId = req.user.id;
     //   заглушка
     const userId = '67a1f599b7ed372da1c632e0';
 
-    const newWater = await addWater(userId, volume, date);
+    const newWater = await addWater(userId, volume, formattedDate);
 
     res.status(201).json({
       status: 201,

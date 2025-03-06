@@ -7,13 +7,9 @@ export const addWaterSchema = Joi.object({
     'any.required': 'The volume of water is mandatory',
   }),
   userId: Joi.string().optional(),
-  date: Joi.string()
-    .regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/)
-    .required()
-    .messages({
-      'string.isoDate': 'Invalid time format. Use YYYY-MM-DDTHH:mm',
-      'any.required': 'The date is mandatory',
-    }),
+  date: Joi.date().iso().required().messages({
+    'date.format': 'Invalid date format. Use ISO 8601 format.',
+  }),
 });
 
 export const updateWaterSchema = Joi.object({
@@ -21,9 +17,12 @@ export const updateWaterSchema = Joi.object({
     'number.min': 'The volume of water must be at least {#limit} ml',
     'number.max': 'The volume of water should not exceed {#limit} ml',
   }),
-  //   userId: Joi.string().optional(),
-  date: Joi.string()
-    .regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/)
+  date: Joi.date()
+    .iso()
+    .optional() // дата є опційною, якщо її не надають
+    .messages({
+      'date.format': 'Invalid date format. Use ISO 8601 format.',
+    })
     .required()
     .messages({
       'string.isoDate': 'Invalid time format. Use YYYY-MM-DDTHH:mm',

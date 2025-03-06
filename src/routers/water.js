@@ -20,7 +20,7 @@ const router = Router();
 router.post('/', validateBody(addWaterSchema), ctrlWrapper(addWaterController));
 
 // оновити
-router.put(
+router.patch(
   '/:id',
   validateBody(updateWaterSchema),
   ctrlWrapper(updateWaterController),
