@@ -1,0 +1,43 @@
+type: object
+required:
+  - _id
+  - email
+  - password
+
+properties:
+  _id:
+    description: "User's id"
+    type: string
+    example: 67a1f598a6ed272da1c632df
+  name:
+    description: "User's name"
+    type: string
+    example: 'Igor Tymchuk'
+  email:
+    description: "User's email"
+    type: string
+    example: 'tymchuk.developer@gmail.com'
+  password:
+    description: "User's password"
+    type: string
+    example: Qwerty12345
+  gender:
+    description: "User's gender"
+    type: string
+    example: female
+  weight:
+    description: "User's weight"
+    type: number
+    example: 55
+  dailySportTime:
+    description: 'Daily number of hours of sports'
+    type: number
+    example: 3
+  dailyNorm:
+    description: 'The daily rate of water is set, ml'
+    type: number
+    example: 2000
+  avatarUrl:
+    description: "User's avatar url"
+    type: string
+    example: https://res.cloudinary.com/douwe7mix/image/upload/v1738700367/ily2elrvnt2hradnchj3.jpg

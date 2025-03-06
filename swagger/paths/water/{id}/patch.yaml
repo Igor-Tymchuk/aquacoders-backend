@@ -1,0 +1,52 @@
+tags:
+  - Water
+summary: Update data of water portion
+operationId: updateWater
+description: 'Update the data about the portion of water by id with payload'
+security:
+  - bearerAuth: []
+parameters:
+  - in: path
+    name: id
+    required: true
+    schema:
+      type: string
+      example: '65ca67e7ae7f10c88b598008'
+requestBody:
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          volume:
+            description: 'The amount of water drunk, ml'
+            type: number
+            example: 250
+          date:
+            description: 'Time of drinking a portion of water'
+            type: string
+            example: '2025-03-05T10:00:00.000+00:00'
+
+responses:
+  '200':
+    description: 'Patch data of water portion'
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: Successfully patched the data of water portion!
+            data:
+              type: object
+              $ref: '../../../components/schemas/water.yaml'
+  '404':
+    $ref: '../../../components/responses/404.yaml'

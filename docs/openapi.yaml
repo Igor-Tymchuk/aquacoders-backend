@@ -1,0 +1,68 @@
+openapi: 3.1.0
+info:
+  version: 1.0.0
+  title: AquaTrack Application
+  license:
+    name: AquaTrack Live Frontend Application
+    url: https://aquacoders.vercel.app/
+  description: This is a documentation of AquaTrack Application from AquaCoders Team!
+tags:
+  - name: Water
+    description: Operations about used water.
+  - name: Users
+    description: Operations about auth and users.
+servers:
+  - url: https://aquacoders.onrender.com
+paths:
+  /water/daily:
+    get:
+      $ref: ../swagger/paths/water/daily/get.yaml
+  /water/monthly:
+    get:
+      $ref: ../swagger/paths/water/monthly/get.yaml
+  /water:
+    post:
+      $ref: ../swagger/paths/water/post.yaml
+  /water/{id}:
+    patch:
+      $ref: ../swagger/paths/water/{id}/patch.yaml
+    delete:
+      $ref: ../swagger/paths/water/{id}/delete.yaml
+  /users/signup:
+    post:
+      $ref: ../swagger/paths/users/signup/post.yaml
+  /users/signin:
+    post:
+      $ref: ../swagger/paths/users/signin/post.yaml
+  /users/refresh:
+    post:
+      $ref: ../swagger/paths/users/refresh/post.yaml
+  /users/logout:
+    post:
+      $ref: ../swagger/paths/users/logout/post.yaml
+  /users/current:
+    get:
+      $ref: ../swagger/paths/users/current/get.yaml
+  /users/counter:
+    get:
+      $ref: ../swagger/paths/users/counter/get.yaml
+  /users/{id}:
+    patch:
+      $ref: ../swagger/paths/users/{id}/patch.yaml
+  /users/get-oauth-url:
+    get:
+      $ref: ../swagger/paths/users/get-oauth-url/get.yaml
+  /users/confirm-oauth:
+    post:
+      $ref: ../swagger/paths/users/confirm-oauth/post.yaml
+  /users/send-reset-email:
+    post:
+      $ref: ../swagger/paths/users/send-reset-email/post.yaml
+  /users/reset-password:
+    post:
+      $ref: ../swagger/paths/users/reset-password/post.yaml
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer

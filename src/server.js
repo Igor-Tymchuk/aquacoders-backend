@@ -8,9 +8,7 @@ import { errorHandler } from './middlewares/errorHandler.js';
 import cookieParser from 'cookie-parser';
 import authRoutes from "./routers/auth.js";
 import sessionConfig from "./config/sessionConfig.js";
-
-
-
+import { swaggerDocs } from './middlewares/swaggerDocs.js';
 
 const PORT = Number(getEnvVar('PORT', '3000'));
 console.log(PORT);
@@ -24,6 +22,7 @@ export const startServer = () => {
       limit: '100kb',
     }),
   );
+  app.use('/api-docs', swaggerDocs());
   app.use(cors());
   app.use(cookieParser());
 

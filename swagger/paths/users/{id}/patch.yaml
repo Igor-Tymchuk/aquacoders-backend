@@ -1,0 +1,68 @@
+tags:
+  - Users
+summary: Update User
+operationId: editUse
+description: 'Register User in the Application'
+security: []
+parameters:
+  - in: path
+    name: id
+    required: true
+    schema:
+      type: string
+      example: '65ca67e7ae7f10c88b598008'
+requestBody:
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - name
+          - email
+          - password
+        properties:
+          name:
+            description: 'User Name'
+            type: string
+          email:
+            description: 'User Email'
+            type: string
+          password:
+            description: 'User Password'
+            type: string
+responses:
+  '201':
+    description: Successfully registered a user!
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 201
+            message:
+              type: string
+              example: Successfully registered a user!
+            data:
+              type: object
+              required:
+                - _id
+                - name
+                - email
+              properties:
+                _id:
+                  type: string
+                  example: '67a922f08b67cd59113534c1'
+                name:
+                  type: string
+                  example: 'Igor Tymchuk'
+                email:
+                  type: string
+                  example: 'hello@world.com'
+  '409':
+    $ref: ../../../components/responses/409.yaml

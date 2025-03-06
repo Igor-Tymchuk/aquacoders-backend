@@ -1,0 +1,9 @@
+tags:
+  - Users
+summary: Logout User
+operationId: logoutUser
+description: 'Logout User in the Application'
+security: []
+responses:
+  '204':
+    description: Logged out successfully!

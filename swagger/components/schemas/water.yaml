@@ -1,0 +1,23 @@
+type: object
+required:
+  - _id
+  - volume
+  - date
+  - userId
+properties:
+  _id:
+    description: 'Backend-generated unique identifier'
+    type: string
+    example: 67a1f598a6ed272da1c633fd
+  volume:
+    description: 'The amount of water drunk, ml'
+    type: number
+    example: 250
+  date:
+    description: 'Time of drinking a portion of water'
+    type: string
+    example: '2025-03-05T10:00:00.000+00:00'
+  userId:
+    description: 'Record owner id'
+    type: string
+    example: 67a1f598a6ed272da1c632df
