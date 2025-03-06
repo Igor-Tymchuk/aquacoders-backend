@@ -1,7 +1,7 @@
 import Joi from 'joi';
 
 export const addWaterSchema = Joi.object({
-  volume: Joi.number().min(1).max(5000).required().messages({
+  volume: Joi.number().min(50).max(5000).required().messages({
     'number.min': 'The volume of water must be at least {#limit} ml',
     'number.max': 'The volume of water should not exceed {#limit} ml',
     'any.required': 'The volume of water is mandatory',
@@ -13,7 +13,7 @@ export const addWaterSchema = Joi.object({
 });
 
 export const updateWaterSchema = Joi.object({
-  volume: Joi.number().min(1).max(5000).optional().messages({
+  volume: Joi.number().min(50).max(5000).optional().messages({
     'number.min': 'The volume of water must be at least {#limit} ml',
     'number.max': 'The volume of water should not exceed {#limit} ml',
   }),

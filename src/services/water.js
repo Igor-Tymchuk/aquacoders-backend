@@ -18,8 +18,8 @@ export const addWater = async (userId, volume, date) => {
 };
 
 export const updateWater = async (userId, id, volume, date) => {
-  if (volume < 1 || volume > 5000) {
-    throw createError(400, 'The volume of water should be from 1 to 5000 ml');
+  if (volume < 50 || volume > 5000) {
+    throw createError(400, 'The volume of water should be from 50 to 5000 ml');
   }
 
   // редагує, в базі знаходиться id, відправлються нові данні та повертається оновлений запис
