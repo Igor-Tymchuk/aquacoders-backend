@@ -1,8 +1,8 @@
 tags:
   - Users
-summary: Update User
-operationId: editUse
-description: 'Register User in the Application'
+summary: Update User Data
+operationId: patchUser
+description: 'Update the data about user by id with payload'
 security: []
 parameters:
   - in: path
@@ -13,26 +13,41 @@ parameters:
       example: '65ca67e7ae7f10c88b598008'
 requestBody:
   content:
-    application/json:
+    multipart/form-data:
       schema:
         type: object
-        required:
-          - name
-          - email
-          - password
         properties:
           name:
-            description: 'User Name'
+            description: "User's name"
             type: string
+            example: 'Igor Tymchuk'
           email:
-            description: 'User Email'
+            description: "User's email"
             type: string
-          password:
-            description: 'User Password'
+            example: 'tymchuk.developer@gmail.com'
+          gender:
+            description: "User's gender"
             type: string
+            example: male
+          weight:
+            description: "User's weight"
+            type: number
+            example: 55
+          dailySportTime:
+            description: 'Daily number of hours of sports'
+            type: number
+            example: 2.5
+          dailyNorm:
+            description: 'The daily rate of water is set, ml'
+            type: number
+            example: 2000
+          avatarUrl:
+            description: "User's avatar"
+            type: string
+            format: binary
 responses:
-  '201':
-    description: Successfully registered a user!
+  '200':
+    description: Successfully patched a user!
     content:
       application/json:
         schema:
@@ -44,25 +59,13 @@ responses:
           properties:
             status:
               type: integer
-              example: 201
+              example: 200
             message:
               type: string
-              example: Successfully registered a user!
+              example: Successfully patched a user!
             data:
-              type: object
-              required:
-                - _id
-                - name
-                - email
-              properties:
-                _id:
-                  type: string
-                  example: '67a922f08b67cd59113534c1'
-                name:
-                  type: string
-                  example: 'Igor Tymchuk'
-                email:
-                  type: string
-                  example: 'hello@world.com'
-  '409':
-    $ref: ../../../components/responses/409.yaml
+              $ref: ../../../components/schemas/user.yaml
+  '400':
+    $ref: ../../../components/responses/400.yaml
+  '401':
+    $ref: ../../../components/responses/401.yaml
