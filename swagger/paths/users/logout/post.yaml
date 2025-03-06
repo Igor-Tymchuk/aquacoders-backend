@@ -2,7 +2,7 @@ tags:
   - Users
 summary: Logout User
 operationId: logoutUser
-description: 'Logout User in the Application'
+description: 'Logout User from the Application'
 security: []
 responses:
   '204':

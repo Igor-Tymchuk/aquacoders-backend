@@ -1,8 +1,8 @@
 tags:
   - Users
 summary: Register User
-operationId: registerUser
-description: 'Register User in the Application'
+operationId: signupUser
+description: 'Registration a new User in the Application'
 security: []
 requestBody:
   content:
@@ -10,52 +10,72 @@ requestBody:
       schema:
         type: object
         required:
-          - name
           - email
           - password
         properties:
-          name:
-            description: 'User Name'
-            type: string
           email:
             description: 'User Email'
             type: string
+            example: 'tymchuk.developer@gmail.com'
           password:
             description: 'User Password'
             type: string
+            example: 'Qwerty12345'
 responses:
   '201':
-    description: Successfully registered a user!
+    description: Successfully registered a new user!
     content:
       application/json:
         schema:
           type: object
           required:
-            - status
-            - message
-            - data
+            - _id
+            - email
+            - password
+            - name
+            - gender
+            - weight
+            - dailySportTime
+            - dailyNorm
+            - avatarUrl
+
           properties:
-            status:
-              type: integer
-              example: 201
-            message:
+            _id:
+              description: "User's id"
               type: string
-              example: Successfully registered a user!
-            data:
-              type: object
-              required:
-                - _id
-                - name
-                - email
-              properties:
-                _id:
-                  type: string
-                  example: '67a922f08b67cd59113534c1'
-                name:
-                  type: string
-                  example: 'Igor Tymchuk'
-                email:
-                  type: string
-                  example: 'hello@world.com'
+              example: 67a1f598a6ed272da1c632df
+            name:
+              description: "User's name"
+              type: string
+              example: ''
+            email:
+              description: "User's email"
+              type: string
+              example: 'tymchuk.developer@gmail.com'
+            password:
+              description: "User's password"
+              type: string
+              writeOnly: true
+              example: 'Qwerty12345'
+            gender:
+              description: "User's gender"
+              type: string
+              example: 'male'
+            weight:
+              description: "User's weight"
+              type: number
+              example: 0
+            dailySportTime:
+              description: 'Daily number of hours of sports'
+              type: number
+              example: 0
+            dailyNorm:
+              description: 'The daily rate of water is set, ml'
+              type: number
+              example: 1500
+            avatarUrl:
+              description: "User's avatar url"
+              type: string
+              example: ''
   '409':
     $ref: ../../../components/responses/409.yaml
