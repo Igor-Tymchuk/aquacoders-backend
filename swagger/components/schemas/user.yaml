@@ -3,6 +3,12 @@ required:
   - _id
   - email
   - password
+  - name
+  - gender
+  - weight
+  - dailySportTime
+  - dailyNorm
+  - avatarUrl
 
 properties:
   _id:
@@ -20,6 +26,7 @@ properties:
   password:
     description: "User's password"
     type: string
+    writeOnly: true
     example: Qwerty12345
   gender:
     description: "User's gender"
@@ -32,7 +39,7 @@ properties:
   dailySportTime:
     description: 'Daily number of hours of sports'
     type: number
-    example: 3
+    example: 2.5
   dailyNorm:
     description: 'The daily rate of water is set, ml'
     type: number
