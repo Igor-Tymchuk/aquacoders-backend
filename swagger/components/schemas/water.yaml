@@ -1,41 +1,23 @@
 type: object
 required:
   - _id
-  - name
-  - phoneNumber
-  - contactType
+  - volume
+  - date
   - userId
 properties:
   _id:
-    description: "Contact's id"
+    description: 'Backend-generated unique identifier'
     type: string
-    example: 65e4decdd286b30065d54fa6
-  name:
-    description: "Contact's name"
+    example: 67a1f598a6ed272da1c633fd
+  volume:
+    description: 'The amount of water drunk, ml'
+    type: number
+    example: 250
+  date:
+    description: 'Time of drinking a portion of water'
     type: string
-    example: 'Igor Tymchuk'
-  phoneNumber:
-    description: 'Contact phone number'
-    type: string
-    example: '+380(99)123-45-67'
-  email:
-    description: "Contact's email"
-    type: string
-    example: 'hello@mail.com'
-  isFavourite:
-    description: "Contact's in the favourite list"
-    type: boolean
-    example: true
-  contactType:
-    description: "Contact's number type"
-    type: string
-    enum: ['work', 'home', 'personal']
-    example: personal
+    example: '2025-03-05T10:00:00.000+00:00'
   userId:
-    description: "Contact's user id"
+    description: 'Record owner id'
     type: string
-    example: 65e4decdd286b30065d54fa6
-  photo:
-    description: "Link to contact's photo"
-    type: string
-    example: https://res.cloudinary.com/uqwgdu/image/upload/image.jpg
+    example: 67a1f598a6ed272da1c632df
