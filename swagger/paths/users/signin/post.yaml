@@ -1,8 +1,8 @@
 tags:
-  - Auth
-summary: Send reset to email
-operationId: sendResetToken
-description: 'Send reset password message to email from the Application'
+  - Users
+summary: Login User
+operationId: loginUser
+description: 'Login User in the Application'
 security: []
 requestBody:
   content:
@@ -11,13 +11,17 @@ requestBody:
         type: object
         required:
           - email
+          - password
         properties:
           email:
             description: 'User Email'
             type: string
+          password:
+            description: 'User Password'
+            type: string
 responses:
   '200':
-    description: Reset password email was successfully sent!
+    description: Successfully logged in an user!
     content:
       application/json:
         schema:
@@ -32,12 +36,17 @@ responses:
               example: 200
             message:
               type: string
-              example: Reset password email was successfully sent!
+              example: Successfully logged in an user!
             data:
               type: object
-              example: {}
-  '404':
-    description: Not Found Error
+              required:
+                - accessToken
+              properties:
+                accessToken:
+                  type: string
+                  example: '2zQaqOpj5WrfbR32j0UAh7WAtaIoaRYkYNVZKg6T'
+  '401':
+    description: Unauthorized error
     content:
       application/json:
         schema:
@@ -49,10 +58,10 @@ responses:
           properties:
             status:
               type: integer
-              example: 404
+              example: 401
             message:
               type: string
-              example: NotFoundError
+              example: UnauthorizedError
             data:
               type: object
               required:
@@ -60,4 +69,4 @@ responses:
               properties:
                 message:
                   type: string
-                  example: 'User not found'
+                  example: 'Unauthorized'

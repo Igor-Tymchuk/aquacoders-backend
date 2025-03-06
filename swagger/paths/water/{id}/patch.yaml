@@ -1,8 +1,8 @@
 tags:
   - Water
-summary: Update water
-operationId: updatewater
-description: 'Update water by id with payload'
+summary: Update data of water portion
+operationId: updateWater
+description: 'Update the data about the portion of water by id with payload'
 security:
   - bearerAuth: []
 parameters:
@@ -14,34 +14,22 @@ parameters:
       example: '65ca67e7ae7f10c88b598008'
 requestBody:
   content:
-    multipart/form-data:
+    application/json:
       schema:
         type: object
         properties:
-          name:
-            description: "water's name"
+          volume:
+            description: 'The amount of water drunk, ml'
+            type: number
+            example: 250
+          date:
+            description: 'Time of drinking a portion of water'
             type: string
-          phoneNumber:
-            description: 'water phone number'
-            type: string
-          email:
-            description: "water's email"
-            type: string
-          isFavourite:
-            description: "water's in the favourite list"
-            type: boolean
-          waterType:
-            description: "water's number type"
-            type: string
-            enum: ['work', 'home', 'personal']
-          photo:
-            description: "water's photo"
-            type: string
-            format: binary
+            example: '2025-03-05T10:00:00.000+00:00'
 
 responses:
   '200':
-    description: 'Patch water'
+    description: 'Patch data of water portion'
     content:
       application/json:
         schema:
@@ -56,9 +44,9 @@ responses:
               example: 200
             message:
               type: string
-              example: Successfully patched a water!
+              example: Successfully patched the data of water portion!
             data:
               type: object
               $ref: '../../../components/schemas/water.yaml'
-  '401':
+  '404':
     $ref: '../../../components/responses/404.yaml'

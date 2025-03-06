@@ -1,5 +1,5 @@
 tags:
-  - Auth
+  - Users
 summary: Get OAuth URL
 operationId: generateAuthUrl
 description: 'Get OAuth with this endpoint'

@@ -1,44 +1,31 @@
 tags:
   - Water
-summary: Create water
-operationId: createwater
-description: 'Create water with payload'
+summary: Create data of water portion
+operationId: addWater
+description: 'Create data of water portion with payload'
 security:
   - bearerAuth: []
 requestBody:
   content:
-    multipart/form-data:
+    application/json:
       schema:
         type: object
         required:
-          - name
-          - phoneNumber
-          - waterType
+          - volume
+          - date
         properties:
-          name:
-            description: "water's name"
+          volume:
+            description: 'The amount of water drunk, ml'
+            type: number
+            example: 250
+          date:
+            description: 'Time of drinking a portion of water'
             type: string
-          phoneNumber:
-            description: 'water phone number'
-            type: string
-          email:
-            description: "water's email"
-            type: string
-          isFavourite:
-            description: "water's in the favourite list"
-            type: boolean
-          waterType:
-            description: "water's number type"
-            type: string
-            enum: ['work', 'home', 'personal']
-          photo:
-            description: "water's photo"
-            type: string
-            format: binary
+            example: '2025-03-05T10:00:00.000+00:00'
 
 responses:
   '200':
-    description: Creates a student
+    description: Create data of water portion
     content:
       application/json:
         schema:
@@ -53,7 +40,7 @@ responses:
               example: 201
             message:
               type: string
-              example: Successfully created a water!
+              example: Successfully created data of water portion!
             data:
               type: object
               $ref: '../../components/schemas/water.yaml'

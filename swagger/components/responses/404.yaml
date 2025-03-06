@@ -21,4 +21,4 @@ content:
           properties:
             message:
               type: string
-              example: 'Contact not found'
+              example: 'Data not found'
