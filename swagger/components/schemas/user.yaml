@@ -31,7 +31,7 @@ properties:
   gender:
     description: "User's gender"
     type: string
-    example: female
+    example: male
   weight:
     description: "User's weight"
     type: number
