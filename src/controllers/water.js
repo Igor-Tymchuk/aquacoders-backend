@@ -10,14 +10,9 @@ import {
 export const addWaterController = async (req, res, next) => {
   const { volume, date } = req.body;
 
-  // Перетворення дати у формат Date перед відправленням у базу
-  const formattedDate = new Date(date);
+  const userId = req.user._id;
 
-  // const userId = req.user.id;
-  //   заглушка
-  const userId = '67a1f599b7ed372da1c632e0';
-
-  const newWater = await addWater(userId, volume, formattedDate);
+  const newWater = await addWater(userId, volume, date);
 
   res.status(201).json({
     status: 201,
@@ -30,9 +25,8 @@ export const addWaterController = async (req, res, next) => {
 export const updateWaterController = async (req, res, next) => {
   const { id } = req.params;
   const { volume, date } = req.body;
-  // const userId = req.user.id;
-  //   заглушка
-  const userId = '67a1f599b7ed372da1c632e0';
+
+  const userId = req.user._id;
 
   const updatedWater = await updateWater(userId, id, volume, date);
 
@@ -46,9 +40,7 @@ export const updateWaterController = async (req, res, next) => {
 // юзер видаляє запис про воду
 export const deleteWaterController = async (req, res, next) => {
   const { id } = req.params;
-  // const userId = req.user.id;
-  //   заглушка
-  const userId = '67a1f599b7ed372da1c632e0';
+  const userId = req.user._id;
 
   await deleteWater(userId, id);
 
@@ -57,13 +49,10 @@ export const deleteWaterController = async (req, res, next) => {
 
 // отримує дані споживання за конкретний день
 export const getDailyWaterController = async (req, res, next) => {
-  // const userId = req.user.id;
-  //   заглушка
-  // const userId = '67a1f599b7ed372da1c632e0';
+  const userId = req.user._id;
+  const { day } = req.query;
 
-  const { userId = '67a1f599b7ed372da1c632e0', date } = req.query;
-
-  const waterEntries = await getDailyWater(userId, date);
+  const waterEntries = await getDailyWater(userId, day);
 
   res.json({
     status: 200,
@@ -74,9 +63,7 @@ export const getDailyWaterController = async (req, res, next) => {
 
 // отримує дані споживання за конкретний місяць
 export const getMonthlyWaterController = async (req, res, next) => {
-  // const userId = req.user.id;
-  //   заглушка
-  const userId = '67a1f599b7ed372da1c632e0';
+  const userId = req.user._id;
 
   const { month } = req.query;
 

@@ -14,25 +14,33 @@ import { validateBody } from '../middlewares/validateBody.js';
 
 import { addWaterSchema, updateWaterSchema } from '../validation/water.js';
 
+import { authenticate } from '../middlewares/authenticate.js';
+
 const router = Router();
 
 // Додати запис
-router.post('/', validateBody(addWaterSchema), ctrlWrapper(addWaterController));
+router.post(
+  '/',
+  authenticate,
+  validateBody(addWaterSchema),
+  ctrlWrapper(addWaterController),
+);
 
 // оновити
 router.patch(
   '/:id',
+  authenticate,
   validateBody(updateWaterSchema),
   ctrlWrapper(updateWaterController),
 );
 
 // видалити
-router.delete('/:id', ctrlWrapper(deleteWaterController));
+router.delete('/:id', authenticate, ctrlWrapper(deleteWaterController));
 
 // за день
-router.get('/daily', ctrlWrapper(getDailyWaterController));
+router.get('/daily', authenticate, ctrlWrapper(getDailyWaterController));
 
 // за місяць
-router.get('/monthly', ctrlWrapper(getMonthlyWaterController));
+router.get('/monthly', authenticate, ctrlWrapper(getMonthlyWaterController));
 
 export default router;
