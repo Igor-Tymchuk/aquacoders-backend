@@ -631,7 +631,11 @@
         "summary": "Logout User",
         "operationId": "logoutUser",
         "description": "Logout User from the Application",
-        "security": [],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "responses": {
           "204": {
             "description": "Logged out successfully!"
@@ -647,7 +651,11 @@
         "summary": "Get info about current User",
         "operationId": "currentUser",
         "description": "Get full info about current User",
-        "security": [],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "Get info about current User",
@@ -683,64 +691,6 @@
         }
       }
     },
-    "/users/counter": {
-      "get": {
-        "tags": [
-          "Users"
-        ],
-        "summary": "Get registered users counter",
-        "operationId": "counterUsers",
-        "description": "Get some info about registered users",
-        "security": [],
-        "responses": {
-          "200": {
-            "description": "Get info about registered users",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "status",
-                    "message",
-                    "data"
-                  ],
-                  "properties": {
-                    "status": {
-                      "type": "integer",
-                      "example": 200
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Successfully got full info about registered users!"
-                    },
-                    "data": {
-                      "type": "object",
-                      "required": [
-                        "usersCounter",
-                        "lastUsersAvatars"
-                      ],
-                      "properties": {
-                        "usersCounter": {
-                          "type": "number",
-                          "example": 1488
-                        },
-                        "lastUsersAvatars": {
-                          "type": "array",
-                          "items": {
-                            "type": "string",
-                            "example": "https://res.cloudinary.com/douwe7mix/image/upload/v1738700367/ily2elrvnt2hradnchj3.jpg"
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/users/{id}": {
       "patch": {
         "tags": [
@@ -749,7 +699,11 @@
         "summary": "Update User Data",
         "operationId": "patchUser",
         "description": "Update the data about user by id with payload",
-        "security": [],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "in": "path",
@@ -841,6 +795,64 @@
           },
           "401": {
             "$ref": "#/components/responses/401"
+          }
+        }
+      }
+    },
+    "/users/counter": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Get registered users counter",
+        "operationId": "counterUsers",
+        "description": "Get some info about registered users",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Get info about registered users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully got full info about registered users!"
+                    },
+                    "data": {
+                      "type": "object",
+                      "required": [
+                        "usersCounter",
+                        "lastUsersAvatars"
+                      ],
+                      "properties": {
+                        "usersCounter": {
+                          "type": "number",
+                          "example": 1488
+                        },
+                        "lastUsersAvatars": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "example": "https://res.cloudinary.com/douwe7mix/image/upload/v1738700367/ily2elrvnt2hradnchj3.jpg"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
