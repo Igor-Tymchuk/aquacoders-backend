@@ -91,11 +91,44 @@ export const getMonthlyWater = async (userId, month) => {
     userId,
     date: { $gte: start, $lt: end },
   })
-    .sort({ date: -1 })
+    .sort({ date: 1 })
     .lean();
 
-  return waterEntries.map((entry) => ({
-    ...entry,
-    date: new Date(entry.date), // Перетворення в Date
-  }));
+  // групую по дням
+  const groupedByDay = waterEntries.reduce((acc, entry) => {
+    const day = new Date(entry.date).getDate().toString().padStart(2, '0'); // Отримуємо день як "06", "27" тощо
+
+    if (!acc[day]) {
+      acc[day] = [];
+    }
+
+    acc[day].push(entry);
+    return acc;
+  }, {});
+
+  // return groupedByDay;
+
+  // Перетворюємо на фінальний об'єкт із середніми значеннями volume
+  const sortedAveragesByDay = Object.keys(groupedByDay)
+    .sort((a, b) => parseInt(a) - parseInt(b)) // Сортуємо дні
+    // .reduce((acc, key) => {
+    //   acc[key] = Math.round(
+    //     groupedByDay[key].totalVolume / groupedByDay[key].count,
+    //   );
+
+    .reduce((acc, key) => {
+      acc[key] = groupedByDay[key].reduce(
+        (sum, entry) => sum + entry.volume,
+        0,
+      ); // Просто сумуємо volume за день
+
+      return acc;
+    }, {});
+
+  return sortedAveragesByDay;
+
+  // return waterEntries.map((entry) => ({
+  //   ...entry,
+  //   date: new Date(entry.date), // Перетворення в Date
+  // }));
 };
