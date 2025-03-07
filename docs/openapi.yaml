@@ -43,12 +43,12 @@ paths:
   /users/current:
     get:
       $ref: ../swagger/paths/users/current/get.yaml
-  /users/counter:
-    get:
-      $ref: ../swagger/paths/users/counter/get.yaml
   /users/{id}:
     patch:
       $ref: ../swagger/paths/users/{id}/patch.yaml
+  /users/counter:
+    get:
+      $ref: ../swagger/paths/users/counter/get.yaml
   /users/get-oauth-url:
     get:
       $ref: ../swagger/paths/users/get-oauth-url/get.yaml

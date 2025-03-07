@@ -10,6 +10,14 @@ import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
 import { getEnvVar } from '../utils/getEnvVar.js';
 import createHttpError from 'http-errors';
 import { updateContact } from '../services/users.js';
+import {
+  signinUser,
+  logoutUser,
+  refreshUsersSession,
+  signupUser,
+  requestResetToken,
+  resetPassword,
+} from '../services/users.js';
 
 export const signupUserController = async (req, res) => {
   const user = await signupUser(req.body);
@@ -75,12 +83,48 @@ export const logoutUserController = async (req, res) => {
 };
 
 export const getCurrentUserController = async (req, res) => {
-  const { _id, name, email } = req.user;
+  const {
+    _id,
+    name,
+    email,
+    gender,
+    weight,
+    dailySportTime,
+    dailyNorm,
+    avatarUrl,
+  } = req.user;
 
   res.json({
     status: 200,
     message: 'Current user retrieved successfully!',
-    data: { _id, name, email },
+    data: {
+      _id,
+      name,
+      email,
+      gender,
+      weight,
+      dailySportTime,
+      dailyNorm,
+      avatarUrl,
+    },
+  });
+};
+
+export const requestResetEmailController = async (req, res) => {
+  await requestResetToken(req.body.email);
+  res.json({
+    status: 200,
+    message: 'Reset password email has been successfully sent.',
+    data: {},
+  });
+};
+
+export const resetPasswordController = async (req, res) => {
+  await resetPassword(req.body);
+  res.json({
+    status: 200,
+    message: 'Password has been successfully reset.',
+    data: {},
   });
 };
 
@@ -112,3 +156,4 @@ export const updateUserController = async (req, res, next) => {
     data: result,
   });
 };
+
