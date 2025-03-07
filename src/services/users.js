@@ -3,8 +3,7 @@ import { UsersCollection } from '../db/models/user.js';
 import { randomBytes } from 'crypto';
 import bcrypt from 'bcrypt';
 import { SessionsCollection } from '../db/models/session.js';
-import { THIRTY_DAYS, THIRTY_MINUTES} from '../constants/index.js';
-
+import { THIRTY_DAYS, THIRTY_MINUTES } from '../constants/index.js';
 
 export const signupUser = async (payload) => {
   const user = await UsersCollection.findOne({ email: payload.email });
@@ -79,4 +78,12 @@ export const refreshUsersSession = async ({ sessionId, refreshToken }) => {
 
 export const logoutUser = async (sessionId) => {
   await SessionsCollection.deleteOne({ _id: sessionId });
+};
+
+export const updateContact = async (id, payload, options = {}) => {
+  const result = await UsersCollection.findOneAndUpdate({ _id: id }, payload, {
+    ...options,
+    new: true,
+  });
+  return result;
 };

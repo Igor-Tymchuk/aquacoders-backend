@@ -1,6 +1,15 @@
 import { THIRTY_DAYS } from '../constants/index.js';
-import { signinUser, logoutUser, refreshUsersSession, signupUser} from '../services/users.js';
-
+import {
+  signinUser,
+  logoutUser,
+  refreshUsersSession,
+  signupUser,
+} from '../services/users.js';
+import { saveFileToCloudinary } from '../utils/cloudinary.js';
+import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
+import { getEnvVar } from '../utils/getEnvVar.js';
+import createHttpError from 'http-errors';
+import { updateContact } from '../services/users.js';
 
 export const signupUserController = async (req, res) => {
   const user = await signupUser(req.body);
@@ -72,5 +81,34 @@ export const getCurrentUserController = async (req, res) => {
     status: 200,
     message: 'Current user retrieved successfully!',
     data: { _id, name, email },
+  });
+};
+
+export const updateUserController = async (req, res, next) => {
+  const { id } = req.params;
+  const photo = req.file;
+  let avatarUrl;
+
+  if (photo) {
+    if (getEnvVar('ENABLE_CLOUDINARY') === 'true') {
+      avatarUrl = await saveFileToCloudinary(photo);
+    } else {
+      avatarUrl = await saveFileToUploadDir(photo);
+    }
+  }
+
+  const result = await updateContact(
+    id,
+    { ...req.body, avatarUrl },
+    { new: true },
+  );
+  if (!result) {
+    return next(createHttpError(404, 'User not found or not updated'));
+  }
+
+  res.status(200).json({
+    status: 200,
+    message: 'Successfully updated the user!',
+    data: result,
   });
 };
