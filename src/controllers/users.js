@@ -1,6 +1,12 @@
-import { THIRTY_DAYS} from '../constants/index.js';
-import { signinUser, logoutUser, refreshUsersSession, signupUser, requestResetToken, resetPassword} from '../services/users.js';
-
+import { THIRTY_DAYS } from '../constants/index.js';
+import {
+  signinUser,
+  logoutUser,
+  refreshUsersSession,
+  signupUser,
+  requestResetToken,
+  resetPassword,
+} from '../services/users.js';
 
 export const signupUserController = async (req, res) => {
   const user = await signupUser(req.body);
@@ -66,12 +72,30 @@ export const logoutUserController = async (req, res) => {
 };
 
 export const getCurrentUserController = async (req, res) => {
-  const { _id, name, email, gender, weight, dailySportTime, dailyNorm, avatarUrl } = req.user;
+  const {
+    _id,
+    name,
+    email,
+    gender,
+    weight,
+    dailySportTime,
+    dailyNorm,
+    avatarUrl,
+  } = req.user;
 
   res.json({
     status: 200,
     message: 'Current user retrieved successfully!',
-    data: { _id, name, email, gender, weight, dailySportTime, dailyNorm, avatarUrl },
+    data: {
+      _id,
+      name,
+      email,
+      gender,
+      weight,
+      dailySportTime,
+      dailyNorm,
+      avatarUrl,
+    },
   });
 };
 
