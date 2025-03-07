@@ -4,9 +4,8 @@ const usersSchema = new Schema(
   {
     name: {
       type: String,
-      default: '',
-      // minlength: 2,
-      // maxlength: 12,
+      default: " ",
+      required: true,
     },
     email: {
       type: String,
@@ -21,28 +20,27 @@ const usersSchema = new Schema(
       type: String,
       enum: ['male', 'female'],
       default: 'female',
+      required: true,
     },
     weight: {
       type: Number,
-      min: 0,
-      max: 250,
       default: 0,
+      required: true,
     },
     dailySportTime: {
       type: Number,
-      min: 0,
-      max: 24,
       default: 0,
+      required: true,
     },
     dailyNorm: {
       type: Number,
-      min: 500,
-      max: 15000,
       default: 1500,
+      required: true,
     },
     avatarUrl: {
       type: String,
-      default: '',
+      default: " ",
+      required: true,
     },
   },
   {
@@ -52,26 +50,9 @@ const usersSchema = new Schema(
 );
 
 usersSchema.methods.toJSON = function () {
-  const {
-    _id,
-    name,
-    email,
-    gender,
-    weight,
-    dailySportTime,
-    dailyNorm,
-    avatarUrl,
-  } = this.toObject();
-  return {
-    _id,
-    name,
-    email,
-    gender,
-    weight,
-    dailySportTime,
-    dailyNorm,
-    avatarUrl,
+    const obj = this.toObject();
+    delete obj.password;
+    return obj;
   };
-};
 
 export const UsersCollection = model('users', usersSchema);
