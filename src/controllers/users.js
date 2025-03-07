@@ -6,7 +6,12 @@ import {
   signupUser,
   requestResetToken,
   resetPassword,
+  updateUser,
 } from '../services/users.js';
+import { saveFileToCloudinary } from '../utils/cloudinary.js';
+import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
+import { getEnvVar } from '../utils/getEnvVar.js';
+import createHttpError from 'http-errors';
 
 export const signupUserController = async (req, res) => {
   const user = await signupUser(req.body);
@@ -114,5 +119,34 @@ export const resetPasswordController = async (req, res) => {
     status: 200,
     message: 'Password has been successfully reset.',
     data: {},
+  });
+};
+
+export const updateUserController = async (req, res, next) => {
+  const { id } = req.params;
+  const photo = req.file;
+  let avatarUrl;
+
+  if (photo) {
+    if (getEnvVar('ENABLE_CLOUDINARY') === 'true') {
+      avatarUrl = await saveFileToCloudinary(photo);
+    } else {
+      avatarUrl = await saveFileToUploadDir(photo);
+    }
+  }
+
+  const result = await updateUser(
+    id,
+    { ...req.body, avatarUrl },
+    { new: true },
+  );
+  if (!result) {
+    return next(createHttpError(404, 'User not found or not updated'));
+  }
+
+  res.status(200).json({
+    status: 200,
+    message: 'Successfully updated the user!',
+    data: result,
   });
 };

@@ -92,6 +92,14 @@ export const logoutUser = async (sessionId) => {
   await SessionsCollection.deleteOne({ _id: sessionId });
 };
 
+export const updateUser = async (id, payload, options = {}) => {
+  const result = await UsersCollection.findOneAndUpdate({ _id: id }, payload, {
+    ...options,
+    new: true,
+  });
+  return result;
+};
+
 export const requestResetToken = async (email) => {
   const user = await UsersCollection.findOne({ email });
   if (!user) {

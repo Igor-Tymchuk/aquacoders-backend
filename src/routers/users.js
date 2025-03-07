@@ -16,7 +16,9 @@ import {
 } from '../controllers/users.js';
 import { validateBody } from '../middlewares/validateBody.js';
 import { authenticate } from '../middlewares/authenticate.js';
-
+import { updateUserSchema } from '../validation/users.js';
+import { updateUserController } from '../controllers/users.js';
+import { upload } from '../middlewares/multer.js';
 const router = Router();
 
 router.post(
@@ -41,6 +43,14 @@ router.post(
   '/reset-password',
   validateBody(resetPasswordSchema),
   ctrlWrapper(resetPasswordController),
+);
+
+router.patch(
+  '/:id',
+  authenticate,
+  upload.single('avatarUrl'),
+  validateBody(updateUserSchema),
+  ctrlWrapper(updateUserController),
 );
 
 export default router;
