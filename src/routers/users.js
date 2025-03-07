@@ -14,17 +14,11 @@ import {
   requestResetEmailController,
   resetPasswordController,
 } from '../controllers/users.js';
-import { inputUserSchema } from '../validation/users.js';
-import {
-  signinUserController,
-  logoutUserController,
-  refreshUserSessionController,
-  signupUserController,
-  getCurrentUserController,
-} from '../controllers/users.js';
 import { validateBody } from '../middlewares/validateBody.js';
 import { authenticate } from '../middlewares/authenticate.js';
-
+import { updateUserSchema } from '../validation/users.js';
+import { updateUserController } from '../controllers/users.js';
+import { upload } from '../middlewares/multer.js';
 const router = Router();
 
 router.post(
@@ -40,5 +34,23 @@ router.post(
 router.post('/refresh', ctrlWrapper(refreshUserSessionController));
 router.post('/logout', ctrlWrapper(logoutUserController));
 router.get('/current', authenticate, ctrlWrapper(getCurrentUserController));
+router.post(
+  '/send-reset-email',
+  validateBody(requestResetEmailSchema),
+  ctrlWrapper(requestResetEmailController),
+);
+router.post(
+  '/reset-password',
+  validateBody(resetPasswordSchema),
+  ctrlWrapper(resetPasswordController),
+);
+
+router.patch(
+  '/:id',
+  authenticate,
+  upload.single('avatarUrl'),
+  validateBody(updateUserSchema),
+  ctrlWrapper(updateUserController),
+);
 
 export default router;

@@ -13,6 +13,7 @@ export const CLOUDINARY = {
   API_KEY: 'API_KEY',
   API_SECRET: 'API_SECRET',
 };
+
 dotenv.config();
 
 export const SMTP = {

@@ -3,7 +3,19 @@ import { UsersCollection } from '../db/models/user.js';
 import { randomBytes } from 'crypto';
 import bcrypt from 'bcrypt';
 import { SessionsCollection } from '../db/models/session.js';
-import { THIRTY_DAYS, THIRTY_MINUTES } from '../constants/index.js';
+import {
+  THIRTY_DAYS,
+  THIRTY_MINUTES,
+  APP_DOMAIN,
+  JWT_SECRET,
+  SMTP,
+  TEMPLATES_DIR,
+} from '../constants/index.js';
+import jwt from 'jsonwebtoken';
+import { sendEmail } from '../utils/sendMail.js';
+import path from 'node:path';
+import fs from 'node:fs/promises';
+import handlebars from 'handlebars';
 
 export const signupUser = async (payload) => {
   const user = await UsersCollection.findOne({ email: payload.email });
@@ -80,7 +92,7 @@ export const logoutUser = async (sessionId) => {
   await SessionsCollection.deleteOne({ _id: sessionId });
 };
 
-export const updateContact = async (id, payload, options = {}) => {
+export const updateUser = async (id, payload, options = {}) => {
   const result = await UsersCollection.findOneAndUpdate({ _id: id }, payload, {
     ...options,
     new: true,

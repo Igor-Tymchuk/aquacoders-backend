@@ -4,20 +4,14 @@ import {
   logoutUser,
   refreshUsersSession,
   signupUser,
+  requestResetToken,
+  resetPassword,
+  updateUser,
 } from '../services/users.js';
 import { saveFileToCloudinary } from '../utils/cloudinary.js';
 import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
 import { getEnvVar } from '../utils/getEnvVar.js';
 import createHttpError from 'http-errors';
-import { updateContact } from '../services/users.js';
-import {
-  signinUser,
-  logoutUser,
-  refreshUsersSession,
-  signupUser,
-  requestResetToken,
-  resetPassword,
-} from '../services/users.js';
 
 export const signupUserController = async (req, res) => {
   const user = await signupUser(req.body);
@@ -141,7 +135,7 @@ export const updateUserController = async (req, res, next) => {
     }
   }
 
-  const result = await updateContact(
+  const result = await updateUser(
     id,
     { ...req.body, avatarUrl },
     { new: true },
@@ -156,4 +150,3 @@ export const updateUserController = async (req, res, next) => {
     data: result,
   });
 };
-
