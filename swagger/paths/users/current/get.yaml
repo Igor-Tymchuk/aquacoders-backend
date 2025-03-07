@@ -3,7 +3,8 @@ tags:
 summary: Get info about current User
 operationId: currentUser
 description: 'Get full info about current User'
-security: []
+security:
+  - bearerAuth: []
 responses:
   '200':
     description: 'Get info about current User'

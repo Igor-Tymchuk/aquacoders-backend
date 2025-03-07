@@ -3,7 +3,8 @@ tags:
 summary: Update User Data
 operationId: patchUser
 description: 'Update the data about user by id with payload'
-security: []
+security:
+  - bearerAuth: []
 parameters:
   - in: path
     name: id
