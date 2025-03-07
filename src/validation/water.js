@@ -6,7 +6,7 @@ export const addWaterSchema = Joi.object({
     'number.max': 'The volume of water should not exceed {#limit} ml',
     'any.required': 'The volume of water is mandatory',
   }),
-  userId: Joi.string().optional(),
+
   date: Joi.date().iso().required().messages({
     'date.format': 'Invalid date format. Use ISO 8601 format.',
   }),

@@ -1,5 +1,6 @@
 import { WaterCollection } from '../db/models/water.js';
 import createError from 'http-errors';
+import mongoose from 'mongoose';
 
 export const addWater = async (userId, volume, date) => {
   if (volume < 50 || volume > 5000) {
@@ -22,10 +23,17 @@ export const updateWater = async (userId, id, volume, date) => {
     throw createError(400, 'The volume of water should be from 50 to 5000 ml');
   }
 
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    throw createError(400, 'Invalid water record ID');
+  }
+
+  const formattedDate = new Date(date);
+
   // редагує, в базі знаходиться id, відправлються нові данні та повертається оновлений запис
   const updatedWater = await WaterCollection.findOneAndUpdate(
+    // { _id: id, userId },
     { _id: id, userId },
-    { volume, date: new Date(date) },
+    { volume, date: formattedDate },
     { new: true },
   );
 
