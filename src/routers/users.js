@@ -13,11 +13,12 @@ import {
   getCurrentUserController,
   requestResetEmailController,
   resetPasswordController,
+  updateUserController,
+  updateUserAvatarController,
 } from '../controllers/users.js';
 import { validateBody } from '../middlewares/validateBody.js';
 import { authenticate } from '../middlewares/authenticate.js';
 import { updateUserSchema } from '../validation/users.js';
-import { updateUserController } from '../controllers/users.js';
 import { upload } from '../middlewares/multer.js';
 const router = Router();
 
@@ -48,9 +49,15 @@ router.post(
 router.patch(
   '/:id',
   authenticate,
-  upload.single('avatarUrl'),
   validateBody(updateUserSchema),
   ctrlWrapper(updateUserController),
+);
+
+router.patch(
+  '/:id/avatar',
+  authenticate,
+  upload.single('avatarUrl'),
+  ctrlWrapper(updateUserAvatarController),
 );
 
 export default router;

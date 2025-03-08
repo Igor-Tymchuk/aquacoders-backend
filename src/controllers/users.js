@@ -124,29 +124,44 @@ export const resetPasswordController = async (req, res) => {
 
 export const updateUserController = async (req, res, next) => {
   const { id } = req.params;
-  const photo = req.file;
-  let avatarUrl;
 
-  if (photo) {
-    if (getEnvVar('ENABLE_CLOUDINARY') === 'true') {
-      avatarUrl = await saveFileToCloudinary(photo);
-    } else {
-      avatarUrl = await saveFileToUploadDir(photo);
-    }
-  }
+  const updatedUser = await updateUser(id, req.body, { new: true });
 
-  const result = await updateUser(
-    id,
-    { ...req.body, avatarUrl },
-    { new: true },
-  );
-  if (!result) {
+  if (!updatedUser) {
     return next(createHttpError(404, 'User not found or not updated'));
   }
 
   res.status(200).json({
     status: 200,
-    message: 'Successfully updated the user!',
-    data: result,
+    message: 'Successfully updated user information!',
+    data: updatedUser,
+  });
+};
+
+export const updateUserAvatarController = async (req, res, next) => {
+  const { id } = req.params;
+  const photo = req.file;
+
+  if (!photo) {
+    return next(createHttpError(400, 'No file uploaded'));
+  }
+
+  let avatarUrl;
+  if (getEnvVar('ENABLE_CLOUDINARY') === 'true') {
+    avatarUrl = await saveFileToCloudinary(photo);
+  } else {
+    avatarUrl = await saveFileToUploadDir(photo);
+  }
+
+  const updatedUser = await updateUser(id, { avatarUrl }, { new: true });
+
+  if (!updatedUser) {
+    return next(createHttpError(404, 'User not found or not updated'));
+  }
+
+  res.status(200).json({
+    status: 200,
+    message: 'Successfully updated user avatar!',
+    data: updatedUser,
   });
 };

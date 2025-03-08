@@ -12,12 +12,15 @@ export const updateUserSchema = Joi.object({
     'number.precision': 'dailySportTime must have no more than 1 decimal place',
   }),
   dailyNorm: Joi.number().min(500).max(15000),
-  avatarUrl: Joi.string().uri(),
 })
-.messages({
-  'object.missing': 'At least one field to update must be specified',
-});
+  .or('name', 'email', 'gender', 'weight', 'dailySportTime', 'dailyNorm')
+  .messages({
+    'object.missing': 'At least one field to update must be specified',
+  });
 
+export const updateUserAvatarSchema = Joi.object({
+  avatarUrl: Joi.string().uri().required(),
+});
 export const inputUserSchema = Joi.object({
   email: Joi.string().email().required(),
   password: Joi.string().required(),
