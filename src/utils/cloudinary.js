@@ -1,4 +1,4 @@
-import { v2 as cloudinary } from 'cloudinary'; // Правильный импорт
+import { v2 as cloudinary } from 'cloudinary';
 import fs from 'node:fs/promises';
 
 import { getEnvVar } from './getEnvVar.js';
@@ -13,16 +13,11 @@ cloudinary.config({
 
 export const saveFileToCloudinary = async (file) => {
   try {
-    console.log('File path:', file.path);
-
     const response = await cloudinary.uploader.upload(file.path);
 
-    try {
-      await fs.access(file.path);
-      await fs.unlink(file.path);
-    } catch (unlinkError) {
-      console.warn('File unlink error:', unlinkError);
-    }
+    await fs.access(file.path);
+    await fs.unlink(file.path);
+
     return response.secure_url;
   } catch (error) {
     console.error('Cloudinary error:', error);
