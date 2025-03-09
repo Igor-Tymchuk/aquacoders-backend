@@ -113,7 +113,6 @@ export const requestResetToken = async (email) => {
     JWT_SECRET,
     { expiresIn: '15m' },
   );
-  console.log(' Generated Token:', resetToken);
   const resetPasswordTemplatePath = path.join(
     TEMPLATES_DIR,
     'reset-password-email.html',
