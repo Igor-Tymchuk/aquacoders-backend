@@ -62,16 +62,40 @@ export const getDailyWaterController = async (req, res, next) => {
 };
 
 // отримує дані споживання за конкретний місяць
+// export const getMonthlyWaterController = async (req, res, next) => {
+//   const userId = req.user._id;
+
+//   const { month } = req.query;
+
+//   const waterEntries = await getMonthlyWater(userId, month);
+
+//   res.json({
+//     status: 200,
+//     message: 'Successfully retrieved monthly water records!',
+//     data: waterEntries,
+//   });
+// };
+
 export const getMonthlyWaterController = async (req, res, next) => {
-  const userId = req.user._id;
+  try {
+    const userId = req.user._id;
+    const { month } = req.query; // Очікую формат "03-2025"
 
-  const { month } = req.query;
+    if (!month) {
+      return res.status(400).json({
+        status: 400,
+        message: 'Month parameter is required (format: MM-YYYY)',
+      });
+    }
 
-  const waterEntries = await getMonthlyWater(userId, month);
+    const waterEntries = await getMonthlyWater(userId, month);
 
-  res.json({
-    status: 200,
-    message: 'Successfully retrieved monthly water records!',
-    data: waterEntries,
-  });
+    res.json({
+      status: 200,
+      message: 'Successfully retrieved monthly water records!',
+      data: waterEntries,
+    });
+  } catch (error) {
+    next(error);
+  }
 };

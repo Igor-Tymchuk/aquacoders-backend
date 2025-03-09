@@ -80,13 +80,14 @@ export const getDailyWater = async (userId, date) => {
 };
 
 export const getMonthlyWater = async (userId, month) => {
-  const start = new Date(month);
-  start.setDate(1);
-  start.setHours(0, 0, 0, 0);
+  // Параметр місяця який запрашує юзер ("03-2025")
+  const [inputMonth, inputYear] = month.split('-').map(Number);
 
-  const end = new Date(start);
-  end.setMonth(end.getMonth() + 1);
+  // Вираховую початок і кінець місяця
+  const start = new Date(inputYear, inputMonth - 1, 1, 0, 0, 0, 0);
+  const end = new Date(inputYear, inputMonth, 0, 23, 59, 59, 999);
 
+  // Всі записи за місяць
   const waterEntries = await WaterCollection.find({
     userId,
     date: { $gte: start, $lt: end },
@@ -94,41 +95,25 @@ export const getMonthlyWater = async (userId, month) => {
     .sort({ date: 1 })
     .lean();
 
-  // групую по дням
+  // По днях
   const groupedByDay = waterEntries.reduce((acc, entry) => {
-    const day = new Date(entry.date).getDate().toString().padStart(2, '0'); // Отримуємо день як "06", "27" тощо
-
-    if (!acc[day]) {
-      acc[day] = [];
-    }
-
-    acc[day].push(entry);
+    const day = new Date(entry.date).getDate(); // Число дня
+    // Додаємо обсяг води за цей день
+    acc[day] = (acc[day] || 0) + entry.volume;
     return acc;
   }, {});
 
-  // return groupedByDay;
+  // Роблю масив УСІХ днів місяця
+  const daysInMonth = new Date(inputYear, inputMonth, 0).getDate(); // Тут саме кількість днів в місяць який треба
 
-  // Перетворюємо на фінальний об'єкт із середніми значеннями volume
-  const sortedAveragesByDay = Object.keys(groupedByDay)
-    .sort((a, b) => parseInt(a) - parseInt(b)) // Сортуємо дні
-    // .reduce((acc, key) => {
-    //   acc[key] = Math.round(
-    //     groupedByDay[key].totalVolume / groupedByDay[key].count,
-    //   );
+  // Тут робиться відповідь масивом по дням
+  const result = Array.from({ length: daysInMonth }, (_, i) => {
+    const formattedDate = `${inputYear}-${String(inputMonth).padStart(
+      2,
+      '0',
+    )}-${String(i + 1).padStart(2, '0')}`;
+    return { date: formattedDate, stats: groupedByDay[i + 1] || 0 };
+  });
 
-    .reduce((acc, key) => {
-      acc[key] = groupedByDay[key].reduce(
-        (sum, entry) => sum + entry.volume,
-        0,
-      ); // Просто сумуємо volume за день
-
-      return acc;
-    }, {});
-
-  return sortedAveragesByDay;
-
-  // return waterEntries.map((entry) => ({
-  //   ...entry,
-  //   date: new Date(entry.date), // Перетворення в Date
-  // }));
+  return result;
 };
