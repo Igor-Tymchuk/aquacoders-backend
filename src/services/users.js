@@ -156,3 +156,25 @@ export const resetPassword = async (payload) => {
   );
   await SessionsCollection.deleteMany({ userId: user._id });
 };
+
+export const getUsersCounter = async () => {
+  try {
+    const usersCounter = await UsersCollection.countDocuments({});
+
+    const lastUsers = await UsersCollection.find({})
+      .sort({ createdAt: -1 })
+      .limit(3);
+
+    const lastUsersAvatars = lastUsers
+      .map((user) => user.avatarUrl)
+      .filter((url) => url && url.trim() !== '');
+
+    return {
+      usersCounter,
+      lastUsersAvatars,
+    };
+  } catch (error) {
+    console.error('Error fetching users data:', error);
+    throw error;
+  }
+};

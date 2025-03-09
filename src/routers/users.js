@@ -15,6 +15,7 @@ import {
   resetPasswordController,
   updateUserController,
   updateUserAvatarController,
+  getUsersCounterController,
 } from '../controllers/users.js';
 import { validateBody } from '../middlewares/validateBody.js';
 import { authenticate } from '../middlewares/authenticate.js';
@@ -59,5 +60,7 @@ router.patch(
   upload.single('avatarUrl'),
   ctrlWrapper(updateUserAvatarController),
 );
+
+router.get('/counter', ctrlWrapper(getUsersCounterController));
 
 export default router;
