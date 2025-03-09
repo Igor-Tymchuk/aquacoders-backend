@@ -38,6 +38,17 @@
             "bearerAuth": []
           }
         ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "day",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "2025-03-05"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Get daily water",
@@ -93,9 +104,10 @@
           {
             "in": "query",
             "name": "month",
+            "required": true,
             "schema": {
               "type": "string",
-              "example": "03-2025"
+              "example": "2025-03"
             }
           }
         ],

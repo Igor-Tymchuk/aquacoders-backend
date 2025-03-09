@@ -8,9 +8,10 @@ security:
 parameters:
   - in: query
     name: month
+    required: true
     schema:
       type: string
-      example: '03-2025'
+      example: '2025-03'
 responses:
   '200':
     description: 'Get monthly water'
