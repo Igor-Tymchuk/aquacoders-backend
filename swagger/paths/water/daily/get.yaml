@@ -5,6 +5,13 @@ operationId: getDailyWater
 description: 'Get list of daily waters with this endpoint'
 security:
   - bearerAuth: []
+parameters:
+  - in: query
+    name: day
+    required: true
+    schema:
+      type: string
+      example: '2025-03-05'
 responses:
   '200':
     description: 'Get daily water'

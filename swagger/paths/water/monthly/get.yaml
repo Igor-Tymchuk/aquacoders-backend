@@ -5,6 +5,13 @@ operationId: getMonthlyWater
 description: 'Get list of monthly waters with this endpoint'
 security:
   - bearerAuth: []
+parameters:
+  - in: query
+    name: month
+    required: true
+    schema:
+      type: string
+      example: '2025-03'
 responses:
   '200':
     description: 'Get monthly water'
@@ -26,6 +33,6 @@ responses:
             data:
               type: array
               items:
-                $ref: '../../../components/schemas/water.yaml'
+                $ref: '../../../components/schemas/water-day.yaml'
   '401':
     $ref: '../../../components/responses/401.yaml'
