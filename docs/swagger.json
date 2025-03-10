@@ -755,7 +755,7 @@
         ],
         "requestBody": {
           "content": {
-            "multipart/form-data": {
+            "application/json": {
               "schema": {
                 "type": "object",
                 "properties": {
@@ -788,11 +788,6 @@
                     "description": "The daily rate of water is set, ml",
                     "type": "number",
                     "example": 2000
-                  },
-                  "avatarUrl": {
-                    "description": "User's avatar",
-                    "type": "string",
-                    "format": "binary"
                   }
                 }
               }
@@ -819,6 +814,84 @@
                     "message": {
                       "type": "string",
                       "example": "Successfully patched a user!"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/user"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          }
+        }
+      }
+    },
+    "/users/{id}/avatar": {
+      "patch": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Update User Avatar",
+        "operationId": "patchUserAvatar",
+        "description": "Update the avatar user by id with binary image",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "65ca67e7ae7f10c88b598008"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "avatar": {
+                    "description": "User's avatar",
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully patched a user avatar!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully patched a user avatar!"
                     },
                     "data": {
                       "$ref": "#/components/schemas/user"
