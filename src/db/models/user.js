@@ -6,7 +6,6 @@ const usersSchema = new Schema(
     name: {
       type: String,
       default: '',
-      required: true,
     },
     email: {
       type: String,
@@ -41,7 +40,6 @@ const usersSchema = new Schema(
     avatarUrl: {
       type: String,
       default: '',
-      required: true,
     },
   },
   {
