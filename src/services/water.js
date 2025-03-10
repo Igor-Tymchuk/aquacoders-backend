@@ -31,7 +31,6 @@ export const updateWater = async (userId, id, volume, date) => {
 
   // редагує, в базі знаходиться id, відправлються нові данні та повертається оновлений запис
   const updatedWater = await WaterCollection.findOneAndUpdate(
-    // { _id: id, userId },
     { _id: id, userId },
     { volume, date: formattedDate },
     { new: true },
@@ -80,8 +79,8 @@ export const getDailyWater = async (userId, date) => {
 };
 
 export const getMonthlyWater = async (userId, month) => {
-  // Параметр місяця який запрашує юзер ("03-2025")
-  const [inputMonth, inputYear] = month.split('-').map(Number);
+  // Параметр місяця який запрашує юзер ("2025-03")
+  const [inputYear, inputMonth] = month.split('-').map(Number);
 
   // Вираховую початок і кінець місяця
   const start = new Date(inputYear, inputMonth - 1, 1, 0, 0, 0, 0);
