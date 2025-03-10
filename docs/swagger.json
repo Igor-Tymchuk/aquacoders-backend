@@ -135,7 +135,23 @@
                     "data": {
                       "type": "array",
                       "items": {
-                        "$ref": "#/components/schemas/water-day"
+                        "type": "object",
+                        "required": [
+                          "date",
+                          "stats"
+                        ],
+                        "properties": {
+                          "date": {
+                            "description": "Day with total amount of water drunk",
+                            "type": "string",
+                            "example": "2025-03-01"
+                          },
+                          "stats": {
+                            "description": "Total amount of water drunk per day, ml",
+                            "type": "number",
+                            "example": 2100
+                          }
+                        }
                       }
                     }
                   }
@@ -1233,25 +1249,6 @@
             "description": "Record owner id",
             "type": "string",
             "example": "67a1f598a6ed272da1c632df"
-          }
-        }
-      },
-      "water-day": {
-        "type": "object",
-        "required": [
-          "date",
-          "stats"
-        ],
-        "properties": {
-          "date": {
-            "description": "Day with total amount of water drunk",
-            "type": "string",
-            "example": "2025-03-01"
-          },
-          "stats": {
-            "description": "Total amount of water drunk per day, ml",
-            "type": "number",
-            "example": 2100
           }
         }
       },
