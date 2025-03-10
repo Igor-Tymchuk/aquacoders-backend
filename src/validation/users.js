@@ -19,7 +19,7 @@ export const updateUserSchema = Joi.object({
   });
 
 export const updateUserAvatarSchema = Joi.object({
-  avatarUrl: Joi.string().uri().required(),
+  avatarUrl: Joi.string().required(),
 });
 export const inputUserSchema = Joi.object({
   email: Joi.string().email().required(),
