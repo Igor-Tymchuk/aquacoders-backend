@@ -1,9 +1,7 @@
 import multer from 'multer';
 import { TEMP_UPLOAD_DIR } from '../constants/index.js';
+import { ALLOWED_MIME_TYPES, MAX_FILE_SIZE } from '../constants/index.js';
 import createHttpError from 'http-errors';
-
-const ALLOWED_MIME_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
-const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {

@@ -1,5 +1,5 @@
 import { model, Schema } from 'mongoose';
-import {GENDER_TYPES} from '../../constants/index.js'
+import { GENDER_TYPES } from '../../constants/index.js';
 
 const usersSchema = new Schema(
   {
@@ -37,7 +37,7 @@ const usersSchema = new Schema(
       default: 1500,
       required: true,
     },
-    avatarUrl: {
+    avatar: {
       type: String,
       default: '',
     },
