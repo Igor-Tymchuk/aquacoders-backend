@@ -166,12 +166,12 @@ export const updateUserAvatarController = async (req, res, next) => {
     return next(createHttpError(400, 'No file uploaded'));
   }
 
-  const avatar =
+  const avatarUrl =
     getEnvVar('ENABLE_CLOUDINARY') === 'true'
       ? await saveFileToCloudinary(photo)
       : await saveFileToUploadDir(photo);
 
-  const updatedUser = await updateUser(id, { avatar });
+  const updatedUser = await updateUser(id, { avatarUrl });
 
   if (!updatedUser) {
     return next(createHttpError(404, 'User not found or not updated'));
@@ -192,8 +192,8 @@ export const getUsersCounterController = async (req, res) => {
     status: 200,
     message: 'Successfully got full info about registered users!',
     data: {
-      usersCounter: usersCounter,
-      lastUsersAvatars: lastUsersAvatars,
+      usersCounter,
+      lastUsersAvatars,
     },
   };
 
