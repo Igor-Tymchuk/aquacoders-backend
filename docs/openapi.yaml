@@ -46,6 +46,9 @@ paths:
   /users/{id}:
     patch:
       $ref: ../swagger/paths/users/{id}/patch.yaml
+  /users/{id}/avatar:
+    patch:
+      $ref: ../swagger/paths/users/{id}/avatar/patch.yaml
   /users/counter:
     get:
       $ref: ../swagger/paths/users/counter/get.yaml

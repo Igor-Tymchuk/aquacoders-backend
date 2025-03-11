@@ -13,6 +13,7 @@ import { saveFileToCloudinary } from '../utils/cloudinary.js';
 import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
 import { getEnvVar } from '../utils/getEnvVar.js';
 import createHttpError from 'http-errors';
+import { updateUserSchema } from '../validation/users.js';
 
 export const signupUserController = async (req, res) => {
   const user = await signupUser(req.body);
@@ -126,7 +127,21 @@ export const resetPasswordController = async (req, res) => {
 export const updateUserController = async (req, res, next) => {
   const { id } = req.params;
 
-  const updatedUser = await updateUser(id, req.body, { new: true });
+  const { error, value } = updateUserSchema.validate(req.body, {
+    abortEarly: false,
+    allowUnknown: true,
+  });
+
+  if (error) {
+    return next(
+      createHttpError(
+        400,
+        `Validation error: ${error.details.map((d) => d.message).join(', ')}`,
+      ),
+    );
+  }
+
+  const updatedUser = await updateUser(id, value);
 
   if (!updatedUser) {
     return next(createHttpError(404, 'User not found or not updated'));
@@ -143,18 +158,20 @@ export const updateUserAvatarController = async (req, res, next) => {
   const { id } = req.params;
   const photo = req.file;
 
+  if (!id) {
+    return next(createHttpError(400, 'User ID is required'));
+  }
+
   if (!photo) {
     return next(createHttpError(400, 'No file uploaded'));
   }
 
-  let avatarUrl;
-  if (getEnvVar('ENABLE_CLOUDINARY') === 'true') {
-    avatarUrl = await saveFileToCloudinary(photo);
-  } else {
-    avatarUrl = await saveFileToUploadDir(photo);
-  }
+  const avatar =
+    getEnvVar('ENABLE_CLOUDINARY') === 'true'
+      ? await saveFileToCloudinary(photo)
+      : await saveFileToUploadDir(photo);
 
-  const updatedUser = await updateUser(id, { avatarUrl }, { new: true });
+  const updatedUser = await updateUser(id, { avatar });
 
   if (!updatedUser) {
     return next(createHttpError(404, 'User not found or not updated'));

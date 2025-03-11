@@ -1,12 +1,11 @@
 import { model, Schema } from 'mongoose';
-import {GENDER_TYPES} from '../../constants/index.js'
+import { GENDER_TYPES } from '../../constants/index.js';
 
 const usersSchema = new Schema(
   {
     name: {
       type: String,
       default: '',
-      required: true,
     },
     email: {
       type: String,
@@ -38,10 +37,9 @@ const usersSchema = new Schema(
       default: 1500,
       required: true,
     },
-    avatarUrl: {
+    avatar: {
       type: String,
       default: '',
-      required: true,
     },
   },
   {

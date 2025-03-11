@@ -4,6 +4,7 @@ import {
   inputUserSchema,
   requestResetEmailSchema,
   resetPasswordSchema,
+  updateUserSchema,
 } from '../validation/users.js';
 import {
   signinUserController,
@@ -19,7 +20,6 @@ import {
 } from '../controllers/users.js';
 import { validateBody } from '../middlewares/validateBody.js';
 import { authenticate } from '../middlewares/authenticate.js';
-import { updateUserSchema } from '../validation/users.js';
 import { upload } from '../middlewares/multer.js';
 const router = Router();
 
@@ -57,7 +57,7 @@ router.patch(
 router.patch(
   '/:id/avatar',
   authenticate,
-  upload.single('avatarUrl'),
+  upload.single('avatar'),
   ctrlWrapper(updateUserAvatarController),
 );
 
