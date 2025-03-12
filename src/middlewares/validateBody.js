@@ -13,3 +13,11 @@ export const validateBody = (schema) => async (req, res, next) => {
     next(error);
   }
 };
+
+export const validateQuery = (schema) => (req, res, next) => {
+  const { error } = schema.validate(req.query);
+  if (error) {
+    return next(createHttpError(400, error.details[0].message));
+  }
+  next();
+};
