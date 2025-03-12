@@ -11,8 +11,13 @@ import {
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 
 import { validateBody } from '../middlewares/validateBody.js';
+import { validateQuery } from '../middlewares/validateBody.js';
 
-import { addWaterSchema, updateWaterSchema } from '../validation/water.js';
+import {
+  addWaterSchema,
+  monthlyWaterSchema,
+  updateWaterSchema,
+} from '../validation/water.js';
 
 import { authenticate } from '../middlewares/authenticate.js';
 
@@ -41,6 +46,11 @@ router.delete('/:id', authenticate, ctrlWrapper(deleteWaterController));
 router.get('/daily', authenticate, ctrlWrapper(getDailyWaterController));
 
 // за місяць
-router.get('/monthly', authenticate, ctrlWrapper(getMonthlyWaterController));
+router.get(
+  '/monthly',
+  authenticate,
+  validateQuery(monthlyWaterSchema),
+  ctrlWrapper(getMonthlyWaterController),
+);
 
 export default router;

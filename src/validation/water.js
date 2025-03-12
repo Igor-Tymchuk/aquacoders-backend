@@ -33,3 +33,25 @@ export const updateWaterSchema = Joi.object({
   .messages({
     'object.missing': 'At least one field to update must be specified',
   });
+
+// формат YYYY-MM-DD
+export const dailyWaterSchema = Joi.object({
+  day: Joi.string()
+    .pattern(/^\d{4}-\d{2}-\d{2}$/)
+    .required()
+    .messages({
+      'string.pattern.base': 'The date must be in the format "YYYY-MM-DD"',
+      'string.empty': 'Date is required',
+    }),
+});
+
+// формат YYYY-MM
+export const monthlyWaterSchema = Joi.object({
+  month: Joi.string()
+    .pattern(/^\d{4}-\d{2}$/)
+    .required()
+    .messages({
+      'string.pattern.base': 'The date must be in the format "YYYY-MM"',
+      'string.empty': 'Date is required',
+    }),
+});
