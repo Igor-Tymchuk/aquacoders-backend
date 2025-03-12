@@ -93,6 +93,8 @@ export const logoutUser = async (sessionId) => {
 };
 
 export const updateUser = async (id, payload, options = {}) => {
+  const user = await UsersCollection.findOne({ email: payload.email });
+  if (user) throw createHttpError(409, 'Email in use');
   const result = await UsersCollection.findOneAndUpdate({ _id: id }, payload, {
     ...options,
     new: true,
