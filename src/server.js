@@ -12,6 +12,23 @@ import { UPLOAD_DIR } from './constants/index.js';
 const PORT = Number(getEnvVar('PORT', '3000'));
 console.log(PORT);
 
+const allowedOrigins = [
+  'https://aquacoders.vercel.app',
+  'http://localhost:3000',
+];
+
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: ['GET', 'POST', 'PATCH', 'DELETE'],
+  credentials: true,
+};
+
 export const startServer = () => {
   const app = express();
 
@@ -22,7 +39,7 @@ export const startServer = () => {
     }),
   );
   app.use('/api-docs', swaggerDocs());
-  app.use(cors());
+  app.use(cors({ corsOptions }));
   app.use(cookieParser());
 
   app.use(
