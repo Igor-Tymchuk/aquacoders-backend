@@ -16,6 +16,7 @@ import { validateQuery } from '../middlewares/validateQuery.js';
 import {
   addWaterSchema,
   monthlyWaterSchema,
+  dailyWaterSchema,
   updateWaterSchema,
 } from '../validation/water.js';
 
@@ -43,7 +44,12 @@ router.patch(
 router.delete('/:id', authenticate, ctrlWrapper(deleteWaterController));
 
 // за день
-router.get('/daily', authenticate, ctrlWrapper(getDailyWaterController));
+router.get(
+  '/daily',
+  authenticate,
+  validateQuery(dailyWaterSchema),
+  ctrlWrapper(getDailyWaterController),
+);
 
 // за місяць
 router.get(
