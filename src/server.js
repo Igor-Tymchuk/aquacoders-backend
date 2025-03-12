@@ -14,7 +14,7 @@ console.log(PORT);
 
 const allowedOrigins = [
   'https://aquacoders.vercel.app',
-  'http://localhost:3000',
+  'http://localhost:5173',
 ];
 
 const corsOptions = {
@@ -39,7 +39,7 @@ export const startServer = () => {
     }),
   );
   app.use('/api-docs', swaggerDocs());
-  app.use(cors({ corsOptions }));
+  app.use(cors(corsOptions));
   app.use(cookieParser());
 
   app.use(
