@@ -776,7 +776,8 @@
                       "none",
                       "male",
                       "female"
-                    ]
+                    ],
+                    "default": "none"
                   },
                   "weight": {
                     "description": "User's weight",
@@ -1377,7 +1378,8 @@
               "none",
               "male",
               "female"
-            ]
+            ],
+            "default": "none"
           },
           "weight": {
             "description": "User's weight",

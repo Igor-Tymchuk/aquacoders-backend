@@ -26,6 +26,7 @@ requestBody:
             type: string
             example: male
             enum: [none, male, female]
+            default: none
           weight:
             description: "User's weight"
             type: number
