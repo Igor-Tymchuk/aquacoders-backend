@@ -10,7 +10,8 @@ import {
 
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 
-import { validateBody, validateQuery } from '../middlewares/validateBody.js';
+import { validateBody } from '../middlewares/validateBody.js';
+import { validateQuery } from '../middlewares/validateBody.js';
 
 import {
   addWaterSchema,

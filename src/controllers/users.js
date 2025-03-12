@@ -125,7 +125,7 @@ export const resetPasswordController = async (req, res) => {
 };
 
 export const updateUserController = async (req, res, next) => {
-  const { id } = req.params;
+  const userId = req.user.id;
 
   const { error, value } = updateUserSchema.validate(req.body, {
     abortEarly: false,
@@ -141,7 +141,7 @@ export const updateUserController = async (req, res, next) => {
     );
   }
 
-  const updatedUser = await updateUser(id, value);
+  const updatedUser = await updateUser(userId, value);
 
   if (!updatedUser) {
     return next(createHttpError(404, 'User not found or not updated'));
@@ -155,10 +155,10 @@ export const updateUserController = async (req, res, next) => {
 };
 
 export const updateUserAvatarController = async (req, res, next) => {
-  const { id } = req.params;
+  const userId = req.user.id;
   const photo = req.file;
 
-  if (!id) {
+  if (!userId) {
     return next(createHttpError(400, 'User ID is required'));
   }
 
@@ -166,12 +166,12 @@ export const updateUserAvatarController = async (req, res, next) => {
     return next(createHttpError(400, 'No file uploaded'));
   }
 
-  const avatar =
+  const avatarUrl =
     getEnvVar('ENABLE_CLOUDINARY') === 'true'
       ? await saveFileToCloudinary(photo)
       : await saveFileToUploadDir(photo);
 
-  const updatedUser = await updateUser(id, { avatar });
+  const updatedUser = await updateUser(userId, { avatarUrl });
 
   if (!updatedUser) {
     return next(createHttpError(404, 'User not found or not updated'));
@@ -192,8 +192,8 @@ export const getUsersCounterController = async (req, res) => {
     status: 200,
     message: 'Successfully got full info about registered users!',
     data: {
-      usersCounter: usersCounter,
-      lastUsersAvatars: lastUsersAvatars,
+      usersCounter,
+      lastUsersAvatars,
     },
   };
 

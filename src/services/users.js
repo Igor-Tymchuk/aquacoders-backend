@@ -160,21 +160,31 @@ export const resetPassword = async (payload) => {
 export const getUsersCounter = async () => {
   try {
     const usersCounter = await UsersCollection.countDocuments({});
+    const lastUsersAvatars = [];
 
-    const lastUsers = await UsersCollection.find({})
-      .sort({ createdAt: -1 })
-      .limit(3);
+    let skip = 0;
+    const limit = 5;
 
-    const lastUsersAvatars = lastUsers
-      .map((user) => user.avatarUrl)
-      .filter((url) => url && url.trim() !== '');
+    while (lastUsersAvatars.length < 3) {
+      const usersBatch = await UsersCollection.find({})
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit);
+      if (usersBatch.length === 0) break;
+      usersBatch.forEach((user) => {
+        if (user.avatarUrl && user.avatarUrl.trim() !== '') {
+          lastUsersAvatars.push(user.avatarUrl);
+        }
+      });
+      skip += limit;
+    }
 
     return {
       usersCounter,
-      lastUsersAvatars,
+      lastUsersAvatars: lastUsersAvatars.slice(0, 3),
     };
   } catch (error) {
-    console.error('Error fetching users data:', error);
-    throw error;
+    console.log(error);
+    throw createHttpError(404, 'Error fetching users data');
   }
 };

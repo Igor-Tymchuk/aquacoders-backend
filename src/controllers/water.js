@@ -49,27 +49,10 @@ export const deleteWaterController = async (req, res, next) => {
   res.status(204).send();
 };
 
-// const yearMonthDaySchema = Joi.string()
-//   .pattern(/^\d{4}-\d{2}-\d{2}$/)
-//   .required()
-//   .messages({
-//     'string.pattern.base': 'The date must be in the format "YYYY-MM-DD"',
-//     'string.empty': 'Date is required',
-//   });
-
 // отримує дані споживання за конкретний день
 export const getDailyWaterController = async (req, res, next) => {
   const userId = req.user._id;
   const { day } = req.query;
-
-  // Перевірка формату за допомогою Joi
-  // const { error } = yearMonthDaySchema.validate(day);
-  // if (error) {
-  //   return res.status(400).json({
-  //     status: 400,
-  //     message: error.details[0].message,
-  //   });
-  // }
 
   const waterEntries = await getDailyWater(userId, day);
 
@@ -80,28 +63,11 @@ export const getDailyWaterController = async (req, res, next) => {
   });
 };
 
-// const yearMonthSchema = Joi.string()
-//   .pattern(/^\d{4}-\d{2}$/)
-//   .required()
-//   .messages({
-//     'string.pattern.base': 'The date must be in the format "YYYY-MM"',
-//     'string.empty': 'Date is required',
-//   });
-
 // отримує дані споживання за конкретний місяць
 export const getMonthlyWaterController = async (req, res, next) => {
   try {
     const userId = req.user._id;
     const { month } = req.query; // Очікую формат "2025-03"
-
-    // Перевірка формату за допомогою Joi
-    // const { error } = yearMonthSchema.validate(month);
-    // if (error) {
-    //   return res.status(400).json({
-    //     status: 400,
-    //     message: error.details[0].message,
-    //   });
-    // }
 
     const waterEntries = await getMonthlyWater(userId, month);
 

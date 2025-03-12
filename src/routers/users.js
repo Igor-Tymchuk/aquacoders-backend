@@ -21,6 +21,7 @@ import {
 import { validateBody } from '../middlewares/validateBody.js';
 import { authenticate } from '../middlewares/authenticate.js';
 import { upload } from '../middlewares/multer.js';
+import handleMulterError from '../middlewares/handleMulterError.js';
 const router = Router();
 
 router.post(
@@ -48,16 +49,17 @@ router.post(
 );
 
 router.patch(
-  '/:id',
+  '/',
   authenticate,
   validateBody(updateUserSchema),
   ctrlWrapper(updateUserController),
 );
 
 router.patch(
-  '/:id/avatar',
+  '/avatar',
   authenticate,
   upload.single('avatar'),
+  handleMulterError,
   ctrlWrapper(updateUserAvatarController),
 );
 
