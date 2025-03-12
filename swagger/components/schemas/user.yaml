@@ -19,6 +19,8 @@ properties:
     description: "User's name"
     type: string
     example: 'Igor Tymchuk'
+    minLength: 2
+    maxLength: 12
   email:
     description: "User's email"
     type: string
@@ -28,22 +30,33 @@ properties:
     type: string
     writeOnly: true
     example: Qwerty12345
+    minLength: 5
+    maxLength: 50
   gender:
     description: "User's gender"
     type: string
     example: male
+    enum: [none, male, female]
   weight:
     description: "User's weight"
     type: number
+    format: float
     example: 55
+    minimum: 0
+    maximum: 250
   dailySportTime:
     description: 'Daily number of hours of sports'
     type: number
+    format: float
     example: 2.5
+    minimum: 0
+    maximum: 24
   dailyNorm:
     description: 'The daily rate of water is set, ml'
-    type: number
+    type: integer
     example: 2000
+    minimum: 500
+    maximum: 15000
   avatarUrl:
     description: "User's avatar url"
     type: string

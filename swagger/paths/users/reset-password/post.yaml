@@ -16,9 +16,13 @@ requestBody:
           token:
             description: 'JWT Token from email'
             type: string
+            example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2N2NmMzRhZjVhZjJiYzY2ODgzMWQ4NmQiLCJlbWFpbCI6ImRpbmFtaXQuc2h1aGVyQGdtYWlsLmNvbSIsImlhdCI6MTc0MTY3NjE4NSwiZXhwIjoxNzQxNjc3MDg1fQ.LWFAk6XLYn2OczoTbRYEQ5YOfakFUVKStj_fX8xpAwE'
           password:
             description: 'New password'
             type: string
+            example: 'Qwerty54321'
+            minLength: 5
+            maxLength: 50
 responses:
   '200':
     description: Reset password email was successfully sent!

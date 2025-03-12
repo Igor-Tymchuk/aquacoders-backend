@@ -16,8 +16,10 @@ requestBody:
         properties:
           volume:
             description: 'The amount of water drunk, ml'
-            type: number
+            type: integer
             example: 250
+            minimum: 50
+            maximum: 5000
           date:
             description: 'Time of drinking a portion of water'
             type: string
