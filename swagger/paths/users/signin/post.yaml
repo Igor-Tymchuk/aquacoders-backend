@@ -21,6 +21,8 @@ requestBody:
             description: 'User Password'
             type: string
             example: 'Qwerty12345'
+            minLength: 5
+            maxLength: 50
 responses:
   '200':
     description: Successfully logged in an user!

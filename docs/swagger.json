@@ -190,8 +190,10 @@
                 "properties": {
                   "volume": {
                     "description": "The amount of water drunk, ml",
-                    "type": "number",
-                    "example": 250
+                    "type": "integer",
+                    "example": 250,
+                    "minimum": 50,
+                    "maximum": 5000
                   },
                   "date": {
                     "description": "Time of drinking a portion of water",
@@ -271,8 +273,10 @@
                 "properties": {
                   "volume": {
                     "description": "The amount of water drunk, ml",
-                    "type": "number",
-                    "example": 250
+                    "type": "integer",
+                    "example": 250,
+                    "minimum": 50,
+                    "maximum": 5000
                   },
                   "date": {
                     "description": "Time of drinking a portion of water",
@@ -379,7 +383,9 @@
                   "password": {
                     "description": "User Password",
                     "type": "string",
-                    "example": "Qwerty12345"
+                    "example": "Qwerty12345",
+                    "minLength": 5,
+                    "maxLength": 50
                   }
                 }
               }
@@ -489,7 +495,9 @@
                   "password": {
                     "description": "User Password",
                     "type": "string",
-                    "example": "Qwerty12345"
+                    "example": "Qwerty12345",
+                    "minLength": 5,
+                    "maxLength": 50
                   }
                 }
               }
@@ -729,7 +737,7 @@
         }
       }
     },
-    "/users/{id}": {
+    "/users": {
       "patch": {
         "tags": [
           "Users"
@@ -742,17 +750,6 @@
             "bearerAuth": []
           }
         ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "example": "65ca67e7ae7f10c88b598008"
-            }
-          }
-        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -762,7 +759,9 @@
                   "name": {
                     "description": "User's name",
                     "type": "string",
-                    "example": "Igor Tymchuk"
+                    "example": "Igor Tymchuk",
+                    "minLength": 2,
+                    "maxLength": 12
                   },
                   "email": {
                     "description": "User's email",
@@ -772,22 +771,36 @@
                   "gender": {
                     "description": "User's gender",
                     "type": "string",
-                    "example": "male"
+                    "example": "male",
+                    "enum": [
+                      "none",
+                      "male",
+                      "female"
+                    ],
+                    "default": "none"
                   },
                   "weight": {
                     "description": "User's weight",
                     "type": "number",
-                    "example": 55
+                    "format": "float",
+                    "example": 55,
+                    "minimum": 0,
+                    "maximum": 250
                   },
                   "dailySportTime": {
                     "description": "Daily number of hours of sports",
                     "type": "number",
-                    "example": 2.5
+                    "format": "float",
+                    "example": 2.5,
+                    "minimum": 0,
+                    "maximum": 24
                   },
                   "dailyNorm": {
                     "description": "The daily rate of water is set, ml",
-                    "type": "number",
-                    "example": 2000
+                    "type": "integer",
+                    "example": 2000,
+                    "minimum": 500,
+                    "maximum": 15000
                   }
                 }
               }
@@ -832,7 +845,7 @@
         }
       }
     },
-    "/users/{id}/avatar": {
+    "/users/avatar": {
       "patch": {
         "tags": [
           "Users"
@@ -843,17 +856,6 @@
         "security": [
           {
             "bearerAuth": []
-          }
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "example": "65ca67e7ae7f10c88b598008"
-            }
           }
         ],
         "requestBody": {
@@ -1204,11 +1206,15 @@
                 "properties": {
                   "token": {
                     "description": "JWT Token from email",
-                    "type": "string"
+                    "type": "string",
+                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2N2NmMzRhZjVhZjJiYzY2ODgzMWQ4NmQiLCJlbWFpbCI6ImRpbmFtaXQuc2h1aGVyQGdtYWlsLmNvbSIsImlhdCI6MTc0MTY3NjE4NSwiZXhwIjoxNzQxNjc3MDg1fQ.LWFAk6XLYn2OczoTbRYEQ5YOfakFUVKStj_fX8xpAwE"
                   },
                   "password": {
                     "description": "New password",
-                    "type": "string"
+                    "type": "string",
+                    "example": "Qwerty54321",
+                    "minLength": 5,
+                    "maxLength": 50
                   }
                 }
               }
@@ -1347,7 +1353,9 @@
           "name": {
             "description": "User's name",
             "type": "string",
-            "example": "Igor Tymchuk"
+            "example": "Igor Tymchuk",
+            "minLength": 2,
+            "maxLength": 12
           },
           "email": {
             "description": "User's email",
@@ -1358,27 +1366,43 @@
             "description": "User's password",
             "type": "string",
             "writeOnly": true,
-            "example": "Qwerty12345"
+            "example": "Qwerty12345",
+            "minLength": 5,
+            "maxLength": 50
           },
           "gender": {
             "description": "User's gender",
             "type": "string",
-            "example": "male"
+            "example": "male",
+            "enum": [
+              "none",
+              "male",
+              "female"
+            ],
+            "default": "none"
           },
           "weight": {
             "description": "User's weight",
             "type": "number",
-            "example": 55
+            "format": "float",
+            "example": 55,
+            "minimum": 0,
+            "maximum": 250
           },
           "dailySportTime": {
             "description": "Daily number of hours of sports",
             "type": "number",
-            "example": 2.5
+            "format": "float",
+            "example": 2.5,
+            "minimum": 0,
+            "maximum": 24
           },
           "dailyNorm": {
             "description": "The daily rate of water is set, ml",
-            "type": "number",
-            "example": 2000
+            "type": "integer",
+            "example": 2000,
+            "minimum": 500,
+            "maximum": 15000
           },
           "avatarUrl": {
             "description": "User's avatar url",

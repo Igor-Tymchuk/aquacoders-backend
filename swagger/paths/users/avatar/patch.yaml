@@ -5,13 +5,6 @@ operationId: patchUserAvatar
 description: 'Update the avatar user by id with binary image'
 security:
   - bearerAuth: []
-parameters:
-  - in: path
-    name: id
-    required: true
-    schema:
-      type: string
-      example: '65ca67e7ae7f10c88b598008'
 requestBody:
   content:
     multipart/form-data:
@@ -41,8 +34,8 @@ responses:
               type: string
               example: Successfully patched a user avatar!
             data:
-              $ref: ../../../../components/schemas/user.yaml
+              $ref: ../../../components/schemas/user.yaml
   '400':
-    $ref: ../../../../components/responses/400.yaml
+    $ref: ../../../components/responses/400.yaml
   '401':
-    $ref: ../../../../components/responses/401.yaml
+    $ref: ../../../components/responses/401.yaml
