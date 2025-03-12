@@ -125,7 +125,7 @@ export const resetPasswordController = async (req, res) => {
 };
 
 export const updateUserController = async (req, res, next) => {
-  const { id } = req.params;
+  const userId = req.user.id;
 
   const { error, value } = updateUserSchema.validate(req.body, {
     abortEarly: false,
@@ -141,7 +141,7 @@ export const updateUserController = async (req, res, next) => {
     );
   }
 
-  const updatedUser = await updateUser(id, value);
+  const updatedUser = await updateUser(userId, value);
 
   if (!updatedUser) {
     return next(createHttpError(404, 'User not found or not updated'));
@@ -155,10 +155,10 @@ export const updateUserController = async (req, res, next) => {
 };
 
 export const updateUserAvatarController = async (req, res, next) => {
-  const { id } = req.params;
+  const userId = req.user.id;
   const photo = req.file;
 
-  if (!id) {
+  if (!userId) {
     return next(createHttpError(400, 'User ID is required'));
   }
 
@@ -171,7 +171,7 @@ export const updateUserAvatarController = async (req, res, next) => {
       ? await saveFileToCloudinary(photo)
       : await saveFileToUploadDir(photo);
 
-  const updatedUser = await updateUser(id, { avatarUrl });
+  const updatedUser = await updateUser(userId, { avatarUrl });
 
   if (!updatedUser) {
     return next(createHttpError(404, 'User not found or not updated'));
