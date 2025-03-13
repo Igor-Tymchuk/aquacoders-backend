@@ -23,6 +23,12 @@ export const updateAvatarSchema = Joi.object({
     'string.base': 'Avatar must be a string',
   }),
 });
+
+export const refreshTokenSchema = Joi.object({
+  refreshToken: Joi.string(),
+  sessionId: Joi.string(),
+});
+
 export const inputUserSchema = Joi.object({
   email: Joi.string().email().required(),
   password: Joi.string().min(5).max(50).required(),

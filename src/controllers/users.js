@@ -64,7 +64,7 @@ export const signinUserController = async (req, res) => {
 export const refreshUserSessionController = async (req, res) => {
   const session = await refreshUsersSession({
     sessionId: req.body.sessionId || req.cookie.sessionId,
-    refreshToken: req.body.refreshToken || req.body.sessionId,
+    refreshToken: req.body.refreshToken || req.body.refreshToken,
   });
 
   setupSession(res, session);

@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import {
   inputUserSchema,
+  refreshTokenSchema,
   requestResetEmailSchema,
   resetPasswordSchema,
   updateUserSchema,
@@ -34,7 +35,11 @@ router.post(
   validateBody(inputUserSchema),
   ctrlWrapper(signinUserController),
 );
-router.post('/refresh', ctrlWrapper(refreshUserSessionController));
+router.post(
+  '/refresh',
+  validateBody(refreshTokenSchema),
+  ctrlWrapper(refreshUserSessionController),
+);
 router.post('/logout', ctrlWrapper(logoutUserController));
 router.get('/current', authenticate, ctrlWrapper(getCurrentUserController));
 router.post(
