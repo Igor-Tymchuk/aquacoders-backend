@@ -26,13 +26,22 @@ export const signupUserController = async (req, res) => {
 };
 
 const setupSession = (res, session) => {
+  const isProduction = getEnvVar('NODE_ENV', 'development') === 'production';
+
   res.cookie('refreshToken', session.refreshToken, {
     httpOnly: true,
+    secure: isProduction,
+    sameSite: isProduction ? 'none' : 'lax',
     expires: new Date(Date.now() + THIRTY_DAYS),
+    path: '/',
   });
+
   res.cookie('sessionId', session._id, {
     httpOnly: true,
+    secure: isProduction,
+    sameSite: isProduction ? 'none' : 'lax',
     expires: new Date(Date.now() + THIRTY_DAYS),
+    path: '/',
   });
 };
 
