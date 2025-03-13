@@ -54,6 +54,7 @@ export const signinUserController = async (req, res) => {
     status: 200,
     message: 'Successfully logged in an user!',
     data: {
+      sessionId: session._id,
       accessToken: session.accessToken,
       refreshToken: session.refreshToken,
     },
@@ -62,8 +63,8 @@ export const signinUserController = async (req, res) => {
 
 export const refreshUserSessionController = async (req, res) => {
   const session = await refreshUsersSession({
-    sessionId: req.cookies.sessionId,
-    refreshToken: req.cookies.refreshToken,
+    sessionId: req.body.sessionId || req.cookie.sessionId,
+    refreshToken: req.body.refreshToken || req.body.sessionId,
   });
 
   setupSession(res, session);
@@ -72,6 +73,7 @@ export const refreshUserSessionController = async (req, res) => {
     status: 200,
     message: 'Successfully refreshed a session!',
     data: {
+      sessionId: session._id,
       accessToken: session.accessToken,
       refreshToken: session.refreshToken,
     },
