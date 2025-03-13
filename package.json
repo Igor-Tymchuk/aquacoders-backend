@@ -19,11 +19,11 @@
     "@eslint/js": "^9.21.0",
     "@redocly/cli": "^1.33.0",
     "eslint": "^9.21.0",
-    "globals": "^16.0.0",
-    "nodemon": "^3.1.9",
-    "pino-pretty": "^13.0.0"
+    "globals": "^16.0.0"
   },
   "dependencies": {
+    "nodemon": "^3.1.9",
+    "pino-pretty": "^13.0.0",
     "bcrypt": "^5.1.1",
     "cloudinary": "^2.5.1",
     "connect-mongo": "^5.1.0",
