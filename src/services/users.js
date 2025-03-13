@@ -10,7 +10,6 @@ import {
   JWT_SECRET,
   SMTP,
   TEMPLATES_DIR,
-  THIRTY_SECONDS,
 } from '../constants/index.js';
 import jwt from 'jsonwebtoken';
 import { sendEmail } from '../utils/sendMail.js';
@@ -37,7 +36,7 @@ const createSession = () => {
   return {
     accessToken,
     refreshToken,
-    accessTokenValidUntil: new Date(Date.now() + THIRTY_SECONDS),
+    accessTokenValidUntil: new Date(Date.now() + THIRTY_MINUTES),
     refreshTokenValidUntil: new Date(Date.now() + THIRTY_DAYS),
   };
 };
