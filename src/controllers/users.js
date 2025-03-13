@@ -62,10 +62,18 @@ export const signinUserController = async (req, res) => {
 };
 
 export const refreshUserSessionController = async (req, res) => {
-  const session = await refreshUsersSession({
-    sessionId: req.body.sessionId || req.cookie.sessionId,
-    refreshToken: req.body.refreshToken || req.body.refreshToken,
-  });
+  const sessionId = req.body.sessionId || req.cookies?.sessionId || null;
+  const refreshToken =
+    req.body.refreshToken || req.cookies?.refreshToken || null;
+
+  if (!sessionId || !refreshToken) {
+    return res.status(400).json({
+      status: 400,
+      message: 'Session ID and refresh token are required',
+    });
+  }
+
+  const session = await refreshUsersSession({ sessionId, refreshToken });
 
   setupSession(res, session);
 
