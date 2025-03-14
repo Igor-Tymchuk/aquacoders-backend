@@ -528,12 +528,22 @@
                     "data": {
                       "type": "object",
                       "required": [
-                        "accessToken"
+                        "sessionId",
+                        "accessToken",
+                        "refreshToken"
                       ],
                       "properties": {
+                        "sessionId": {
+                          "type": "string",
+                          "example": "67d4a795d7f4ef710a101783"
+                        },
                         "accessToken": {
                           "type": "string",
-                          "example": "2zQaqOpj5WrfbR32j0UAh7WAtaIoaRYkYNVZKg6T"
+                          "example": "IHIarCZhsbTF0ED6mu65IbWZbbZ50HDpeS90vsEn"
+                        },
+                        "refreshToken": {
+                          "type": "string",
+                          "example": "Uq3xVAm0E6Jw0IhaiuT1I6VDQXsQIYLW/7dtkZoZ"
                         }
                       }
                     }
@@ -589,8 +599,29 @@
         ],
         "summary": "Refresh Users Session",
         "operationId": "refreshUsersSession",
-        "description": "Refresh Users Session in the Application",
+        "description": "Refresh Users Session in the Application (work with body and cookie)",
         "security": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "sessionId": {
+                    "type": "string",
+                    "description": "Current session ID from database",
+                    "example": "67d4a795d7f4ef710a101783"
+                  },
+                  "refreshToken": {
+                    "description": "Current refresh token from database",
+                    "type": "string",
+                    "example": "Uq3xVAm0E6Jw0IhaiuT1I6VDQXsQIYLW/7dtkZoZ"
+                  }
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Successfully refreshed a session!",
@@ -615,12 +646,22 @@
                     "data": {
                       "type": "object",
                       "required": [
-                        "accessToken"
+                        "sessionId",
+                        "accessToken",
+                        "refreshToken"
                       ],
                       "properties": {
+                        "sessionId": {
+                          "type": "string",
+                          "example": "67d4a795d7f4ef710a101783"
+                        },
                         "accessToken": {
                           "type": "string",
-                          "example": "2zQaqOpj5WrfbR32j0UAh7WAtaIoaRYkYNVZKg6T"
+                          "example": "IHIarCZhsbTF0ED6mu65IbWZbbZ50HDpeS90vsEn"
+                        },
+                        "refreshToken": {
+                          "type": "string",
+                          "example": "Uq3xVAm0E6Jw0IhaiuT1I6VDQXsQIYLW/7dtkZoZ"
                         }
                       }
                     }

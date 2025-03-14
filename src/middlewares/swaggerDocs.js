@@ -11,7 +11,7 @@ export const swaggerDocs = () => {
       ...swaggerUI.serve,
       swaggerUI.setup(swaggerDoc, {
         customCss: `body, .swagger-ui {
-      background-image: linear-gradient(to right, #e2eFf7, #c2cFd7);
+      background-image: linear-gradient(to right, #5B9160, #c2cFd7, #c2cFd7, #c2cFd7, #c2cFd7, #c2cFd7, #c2cFd7, #c2cFd7, #5B9160);
       color: #404040 !important;
       }
         .swagger-ui .info a {
@@ -37,7 +37,7 @@ export const swaggerDocs = () => {
       color: #2A3C44;
       }
         .swagger-ui .opblock .opblock-section-header {
-      background-image: linear-gradient(to right, #e2eFf7, #c2cFd7);
+      background-image: linear-gradient(to bottom, #2B609155, #b2c7dF, #b2c7dF, #b2c7dF, #2B609155);
       }
       .information-container.wrapper {
       padding: 0;
