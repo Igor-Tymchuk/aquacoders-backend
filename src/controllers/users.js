@@ -8,12 +8,14 @@ import {
   resetPassword,
   updateUser,
   getUsersCounter,
+  loginOrSignupWithGoogle,
 } from '../services/users.js';
 import { saveFileToCloudinary } from '../utils/cloudinary.js';
 import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
 import { getEnvVar } from '../utils/getEnvVar.js';
 import createHttpError from 'http-errors';
 import { updateUserSchema } from '../validation/users.js';
+import { generateAuthUrl } from '../utils/googleOAuth2.js';
 
 export const signupUserController = async (req, res) => {
   const user = await signupUser(req.body);
@@ -219,4 +221,28 @@ export const getUsersCounterController = async (req, res) => {
   };
 
   res.status(200).json(responseData);
+};
+
+export const getGoogleOAuthUrlController = async (req, res) => {
+  const url = generateAuthUrl();
+  res.json({
+    status: 200,
+    message: 'Successfully get Google OAuth url!',
+    data: {
+      url,
+    },
+  });
+};
+
+export const loginWithGoogleController = async (req, res) => {
+  const session = await loginOrSignupWithGoogle(req.body.code);
+  setupSession(res, session);
+
+  res.json({
+    status: 200,
+    message: 'Successfully logged in via Google OAuth!',
+    data: {
+      accessToken: session.accessToken,
+    },
+  });
 };

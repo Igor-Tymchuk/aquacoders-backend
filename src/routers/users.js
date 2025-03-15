@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import {
   inputUserSchema,
+  loginWithGoogleOAuthSchema,
   refreshTokenSchema,
   requestResetEmailSchema,
   resetPasswordSchema,
@@ -18,12 +19,22 @@ import {
   updateUserController,
   updateUserAvatarController,
   getUsersCounterController,
+  getGoogleOAuthUrlController,
+  loginWithGoogleController,
 } from '../controllers/users.js';
 import { validateBody } from '../middlewares/validateBody.js';
 import { authenticate } from '../middlewares/authenticate.js';
 import { upload } from '../middlewares/multer.js';
 import handleMulterError from '../middlewares/handleMulterError.js';
 const router = Router();
+
+router.get('/get-oauth-url', ctrlWrapper(getGoogleOAuthUrlController));
+
+router.post(
+  '/confirm-oauth',
+  validateBody(loginWithGoogleOAuthSchema),
+  ctrlWrapper(loginWithGoogleController),
+);
 
 router.post(
   '/signup',
