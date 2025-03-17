@@ -22,6 +22,8 @@ import {
 
 import { authenticate } from '../middlewares/authenticate.js';
 
+import { validateId } from '../middlewares/validateId.js';
+
 const router = Router();
 
 // Додати запис
@@ -36,12 +38,18 @@ router.post(
 router.patch(
   '/:id',
   authenticate,
+  validateId,
   validateBody(updateWaterSchema),
   ctrlWrapper(updateWaterController),
 );
 
 // видалити
-router.delete('/:id', authenticate, ctrlWrapper(deleteWaterController));
+router.delete(
+  '/:id',
+  authenticate,
+  validateId,
+  ctrlWrapper(deleteWaterController),
+);
 
 // за день
 router.get(
