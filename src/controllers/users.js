@@ -7,8 +7,8 @@ import {
   requestResetToken,
   resetPassword,
   updateUser,
-  getUsersCounter,
-  loginOrSignupWithGoogle,
+  getUsersCounter /*
+  loginOrSignupWithGoogle,*/,
 } from '../services/users.js';
 import { saveFileToCloudinary } from '../utils/cloudinary.js';
 import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
@@ -223,6 +223,38 @@ export const getUsersCounterController = async (req, res) => {
   res.status(200).json(responseData);
 };
 
+export const loginWithGoogleController = async (req, res) => {
+  try {
+    if (!req.user) {
+      return res.status(401).json({
+        status: 401,
+        message: 'Unauthorized: User not authenticated',
+      });
+    }
+
+    return res.json({
+      status: 200,
+      message: 'Successfully logged in via Google OAuth!',
+      data: {
+        accessToken: req.session.accessToken,
+        refreshToken: req.session.refreshToken,
+        sessionId: req.session._id,
+        user: {
+          id: req.user._id,
+          email: req.user.email,
+          name: req.user.name,
+        },
+      },
+    });
+  } catch (error) {
+    console.error('Google OAuth error:', error);
+    return res.status(500).json({
+      status: 500,
+      message: 'Internal Server Error',
+    });
+  }
+};
+
 export const getGoogleOAuthUrlController = async (req, res) => {
   const url = generateAuthUrl();
   res.json({
@@ -230,19 +262,6 @@ export const getGoogleOAuthUrlController = async (req, res) => {
     message: 'Successfully get Google OAuth url!',
     data: {
       url,
-    },
-  });
-};
-
-export const loginWithGoogleController = async (req, res) => {
-  const session = await loginOrSignupWithGoogle(req.body.code);
-  setupSession(res, session);
-
-  res.json({
-    status: 200,
-    message: 'Successfully logged in via Google OAuth!',
-    data: {
-      accessToken: session.accessToken,
     },
   });
 };
