@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import {
-  inputUserSchema,
-  loginWithGoogleOAuthSchema,
+  inputUserSchema /*
+  loginWithGoogleOAuthSchema,*/,
   refreshTokenSchema,
   requestResetEmailSchema,
   resetPasswordSchema,
@@ -26,14 +26,14 @@ import { validateBody } from '../middlewares/validateBody.js';
 import { authenticate } from '../middlewares/authenticate.js';
 import { upload } from '../middlewares/multer.js';
 import handleMulterError from '../middlewares/handleMulterError.js';
+import { authenticateGoogleOAuth } from '../middlewares/googleAuthMiddleware.js';
 const router = Router();
 
-router.get('/get-oauth-url', ctrlWrapper(getGoogleOAuthUrlController));
-
+router.get('/get-oauth-url', getGoogleOAuthUrlController);
 router.post(
   '/confirm-oauth',
-  validateBody(loginWithGoogleOAuthSchema),
-  ctrlWrapper(loginWithGoogleController),
+  authenticateGoogleOAuth,
+  loginWithGoogleController,
 );
 
 router.post(

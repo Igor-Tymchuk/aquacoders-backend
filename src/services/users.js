@@ -20,6 +20,7 @@ import {
   getFullNameFromGoogleTokenPayload,
   validateCode,
 } from '../utils/googleOAuth2.js';
+import { generateAccessToken, generateRefreshToken } from '../utils/jwt.js';
 
 export const signupUser = async (payload) => {
   const user = await UsersCollection.findOne({ email: payload.email });
@@ -194,7 +195,7 @@ export const getUsersCounter = async () => {
     throw createHttpError(404, 'Error fetching users data');
   }
 };
-
+/*
 export const loginOrSignupWithGoogle = async (code) => {
   const loginTicket = await validateCode(code);
   const payload = loginTicket.getPayload();
@@ -216,4 +217,46 @@ export const loginOrSignupWithGoogle = async (code) => {
     userId: user._id,
     ...newSession,
   });
+};*/
+export const loginOrSignupWithGoogle = async (code) => {
+  const loginTicket = await validateCode(code);
+  const payload = loginTicket.getPayload();
+  if (!payload) throw createHttpError(401);
+
+  let user = await UsersCollection.findOne({ email: payload.email });
+  if (!user) {
+    const password = await bcrypt.hash(randomBytes(10), 10);
+    user = await UsersCollection.create({
+      email: payload.email,
+      name: getFullNameFromGoogleTokenPayload(payload),
+      password,
+    });
+  }
+
+  // Generate accessToken and refreshToken
+  const accessToken = generateAccessToken(user);
+  const refreshToken = generateRefreshToken(user);
+
+  // Create new session
+  const newSession = new SessionsCollection({
+    userId: user._id,
+    accessToken,
+    refreshToken,
+    accessTokenValidUntil: new Date(Date.now() + THIRTY_MINUTES),
+    refreshTokenValidUntil: new Date(Date.now() + THIRTY_DAYS),
+  });
+
+  // Save session to the database
+  await newSession.save();
+
+  return {
+    accessToken,
+    refreshToken,
+    _id: newSession._id, // Add _id session (sessionId)
+    user: {
+      id: user._id,
+      email: user.email,
+      name: user.name,
+    },
+  };
 };
