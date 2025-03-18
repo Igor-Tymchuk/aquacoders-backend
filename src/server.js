@@ -9,7 +9,7 @@ import cookieParser from 'cookie-parser';
 import { swaggerDocs } from './middlewares/swaggerDocs.js';
 import { UPLOAD_DIR } from './constants/index.js';
 
-const PORT = Number(getEnvVar('PORT', '4000'));
+const PORT = Number(getEnvVar('PORT', '3000'));
 console.log(PORT);
 console.log(getEnvVar('NODE_ENV', 'development'));
 
